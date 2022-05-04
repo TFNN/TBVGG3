@@ -191,7 +191,7 @@ float TBVGG3_Process(TBVGG3_Network* net, const float input[3][28][28], const TB
 void  TBVGG3_Reset(TBVGG3_Network* net);
 int   TBVGG3_SaveNetwork(TBVGG3_Network* net, const char* file);
 int   TBVGG3_LoadNetwork(TBVGG3_Network* net, const char* file);
-void  TBVGG3_Dump(TBVGG3_Network* net, const char* file);
+//void  TBVGG3_Dump(TBVGG3_Network* net, const char* file);
 
 /*
 --------------------------------------
