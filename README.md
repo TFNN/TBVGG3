@@ -23,3 +23,10 @@ int   TBVGG3_SaveNetwork(TBVGG3_Network* net, const char* file);
 int   TBVGG3_LoadNetwork(TBVGG3_Network* net, const char* file);
 ```
 
+### Example Usage
+```
+TBVGG3_Network net;
+TBVGG3_Reset(&net) // this will initialise the weights
+// now you can train the network with TBVGG3_Process(&net, &inputs, LEARN_MAX)
+// or query a trained network with TBVGG3_Process(&net, &inputs, NO_LEARN)
+```
