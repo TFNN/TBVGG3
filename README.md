@@ -1,9 +1,9 @@
 # TBVGG3
 A Convolutional Neural Network Library written in C
 
-Please refer to [TFCNN/Projects](https://github.com/TFCNN/Projects) for an example usecase.
+Please refer to [TFCNN/Projects](https://github.com/TFCNN/Projects) for an example use case.
 
-To learn more about the VGG Network coined by the [Oxford Visual Geometry Group](https://www.robots.ox.ac.uk/~vgg/) the Tensorflow Keras documentation has a good coverage of the two mainstream options VGG16 and VGG19 [here](https://keras.io/api/applications/vgg/).
+To learn more about the VGG Network coined by the [Oxford Visual Geometry Group](https://www.robots.ox.ac.uk/~vgg/) the Tensorflow Keras documentation has good coverage of the two mainstream options VGG16 and VGG19 [here](https://keras.io/api/applications/vgg/).
 
 This is not associated with the Oxford Visual Geometry Group, the network is inspired by the VGG network, it is essentially a very similar type of network because it uses only 3x3 kernels. The number following VGG is the number of layers in the network, hence this network having been coined VGG3, and TBVGG3 because it has a Tiny footprint and a Binary output; making it the Tiny Binary VGG 3 (TBVGG3).
 
