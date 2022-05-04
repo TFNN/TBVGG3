@@ -5,6 +5,8 @@
 --------------------------------------------------
     Tiny Binary VGG3
     https://github.com/tfcnn
+    
+    This version uses 4x less units per layer. Using only ~20kb of memory.
 
     This is an adaption inspired by the VGG series of networks.
 
