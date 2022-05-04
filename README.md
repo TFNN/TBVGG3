@@ -30,3 +30,4 @@ TBVGG3_Reset(&net) // this will initialise the weights
 // now you can train the network with TBVGG3_Process(&net, &inputs, LEARN_MAX)
 // or query a trained network with TBVGG3_Process(&net, &inputs, NO_LEARN)
 ```
+_It is important that you always call `TBVGG3_Reset()` on a newly created network to initialise the weights._ 
