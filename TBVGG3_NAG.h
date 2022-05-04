@@ -122,7 +122,7 @@
 #include <math.h>
 #include <time.h>
 #include <string.h>
-#include <sys/stat.h>
+// #include <sys/stat.h>
 
 #define uint unsigned int
 #define sint int
@@ -200,7 +200,7 @@ float TBVGG3_Process(TBVGG3_Network* net, const float input[3][28][28], const TB
 void  TBVGG3_Reset(TBVGG3_Network* net);
 int   TBVGG3_SaveNetwork(TBVGG3_Network* net, const char* file);
 int   TBVGG3_LoadNetwork(TBVGG3_Network* net, const char* file);
-void  TBVGG3_Dump(TBVGG3_Network* net, const char* file);
+// void  TBVGG3_Dump(TBVGG3_Network* net, const char* file);
 
 /*
 --------------------------------------
@@ -208,143 +208,143 @@ void  TBVGG3_Dump(TBVGG3_Network* net, const char* file);
 --------------------------------------
 */
 
-void TBVGG3_Dump(TBVGG3_Network* net, const char* file)
-{
-    char p[256];
-    mkdir(file, 0777);
-    sprintf(p, "%s/l1f.txt", file);
-    FILE* f = fopen(p, "w");
-    if(f != NULL){
-        for(uint i = 0; i < 32; i++){
-            fprintf(f, "~~~~~~~~~~~~~~N(%u):\n", i);
-            for(uint j = 0; j < 3; j++){
-                fprintf(f, "D(%u): ", j);
-                for(uint k = 0; k < 9; k++)
-                    fprintf(f, "%.2f ", net->l1f[i][j][k]);
-                fprintf(f, ":: %f\n", net->l1fb[i][0]);
-            }fprintf(f, "\n");
-        }fclose(f);}
-    sprintf(p, "%s/l2f.txt", file);
-    f = fopen(p, "w");
-    if(f != NULL){
-        for(uint i = 0; i < 64; i++){
-            fprintf(f, "~~~~~~~~~~~~~~N(%u):\n", i);
-            for(uint j = 0; j < 32; j++){
-                fprintf(f, "D(%u): ", j);
-                for(uint k = 0; k < 9; k++)
-                    fprintf(f, "%.2f ", net->l2f[i][j][k]);
-                fprintf(f, ":: %f\n", net->l2fb[i][0]);
-            }fprintf(f, "\n");
-        }fclose(f);}
-    sprintf(p, "%s/l3f.txt", file);
-    f = fopen(p, "w");
-    if(f != NULL){
-        for(uint i = 0; i < 128; i++){
-            fprintf(f, "~~~~~~~~~~~~~~N(%u):\n", i);
-            for(uint j = 0; j < 64; j++){
-                fprintf(f, "D(%u): ", j);
-                for(uint k = 0; k < 9; k++)
-                    fprintf(f, "%.2f ", net->l3f[i][j][k]);
-                fprintf(f, ":: %f\n", net->l3fb[i][0]);
-            }fprintf(f, "\n");
-        }fclose(f);}
-    sprintf(p, "%s/o1.txt", file);
-    f = fopen(p, "w");
-    if(f != NULL){
-        for(uint i = 0; i < 32; i++){
-            fprintf(f, "~~~~~~~~~~~~~~N(%u):\n", i);
-            for(uint j = 0; j < 28; j++){
-                fprintf(f, "Y(%u): ", j);
-                for(uint k = 0; k < 28; k++)
-                    fprintf(f, "%.2f ", net->o1[i][j][k]);
-                fprintf(f, "\n");
-            }fprintf(f, "\n");
-        }fclose(f);}
-    sprintf(p, "%s/p1.txt", file);
-    f = fopen(p, "w");
-    if(f != NULL){
-        for(uint i = 0; i < 32; i++){
-            fprintf(f, "~~~~~~~~~~~~~~N(%u):\n", i);
-            for(uint j = 0; j < 14; j++){
-                fprintf(f, "Y(%u): ", j);
-                for(uint k = 0; k < 14; k++)
-                    fprintf(f, "%.2f ", net->p1[i][j][k]);
-                fprintf(f, "\n");
-            }fprintf(f, "\n");
-        }fclose(f);}
-    sprintf(p, "%s/o2.txt", file);
-    f = fopen(p, "w");
-    if(f != NULL){
-        for(uint i = 0; i < 64; i++){
-            fprintf(f, "~~~~~~~~~~~~~~N(%u):\n", i);
-            for(uint j = 0; j < 14; j++){
-                fprintf(f, "Y(%u): ", j);
-                for(uint k = 0; k < 14; k++)
-                    fprintf(f, "%.2f ", net->o2[i][j][k]);
-                fprintf(f, "\n");
-            }fprintf(f, "\n");
-        }fclose(f);}
-    sprintf(p, "%s/p2.txt", file);
-    f = fopen(p, "w");
-    if(f != NULL){
-        for(uint i = 0; i < 64; i++){
-            fprintf(f, "~~~~~~~~~~~~~~N(%u):\n", i);
-            for(uint j = 0; j < 7; j++){
-                fprintf(f, "Y(%u): ", j);
-                for(uint k = 0; k < 7; k++)
-                    fprintf(f, "%.2f ", net->p2[i][j][k]);
-                fprintf(f, "\n");
-            }fprintf(f, "\n");
-        }fclose(f);}
-    sprintf(p, "%s/o3.txt", file);
-    f = fopen(p, "w");
-    if(f != NULL){
-        for(uint i = 0; i < 128; i++){
-            fprintf(f, "~~~~~~~~~~~~~~N(%u):\n", i);
-            for(uint j = 0; j < 7; j++){
-                fprintf(f, "Y(%u): ", j);
-                for(uint k = 0; k < 7; k++)
-                    fprintf(f, "%.2f ", net->o3[i][j][k]);
-                fprintf(f, "\n");
-            }fprintf(f, "\n");
-        }fclose(f);}
-    sprintf(p, "%s/e1.txt", file);
-    f = fopen(p, "w");
-    if(f != NULL){
-        for(uint i = 0; i < 32; i++){
-            fprintf(f, "~~~~~~~~~~~~~~N(%u):\n", i);
-            for(uint j = 0; j < 28; j++){
-                fprintf(f, "Y(%u): ", j);
-                for(uint k = 0; k < 28; k++)
-                    fprintf(f, "%.2f ", net->e1[i][j][k]);
-                fprintf(f, "\n");
-            }fprintf(f, "\n");
-        }fclose(f);}
-    sprintf(p, "%s/e2.txt", file);
-    f = fopen(p, "w");
-    if(f != NULL){
-        for(uint i = 0; i < 64; i++){
-            fprintf(f, "~~~~~~~~~~~~~~N(%u):\n", i);
-            for(uint j = 0; j < 14; j++){
-                fprintf(f, "Y(%u): ", j);
-                for(uint k = 0; k < 14; k++)
-                    fprintf(f, "%.2f ", net->e2[i][j][k]);
-                fprintf(f, "\n");
-            }fprintf(f, "\n");
-        }fclose(f);}
-    sprintf(p, "%s/e3.txt", file);
-    f = fopen(p, "w");
-    if(f != NULL){
-        for(uint i = 0; i < 128; i++){
-            fprintf(f, "~~~~~~~~~~~~~~N(%u):\n", i);
-            for(uint j = 0; j < 7; j++){
-                fprintf(f, "Y(%u): ", j);
-                for(uint k = 0; k < 7; k++)
-                    fprintf(f, "%f ", net->e3[i][j][k]);
-                fprintf(f, "\n");
-            }fprintf(f, "\n");
-        }fclose(f);}
-}
+// void TBVGG3_Dump(TBVGG3_Network* net, const char* file)
+// {
+//     char p[256];
+//     mkdir(file, 0777);
+//     sprintf(p, "%s/l1f.txt", file);
+//     FILE* f = fopen(p, "w");
+//     if(f != NULL){
+//         for(uint i = 0; i < 32; i++){
+//             fprintf(f, "~~~~~~~~~~~~~~N(%u):\n", i);
+//             for(uint j = 0; j < 3; j++){
+//                 fprintf(f, "D(%u): ", j);
+//                 for(uint k = 0; k < 9; k++)
+//                     fprintf(f, "%.2f ", net->l1f[i][j][k]);
+//                 fprintf(f, ":: %f\n", net->l1fb[i][0]);
+//             }fprintf(f, "\n");
+//         }fclose(f);}
+//     sprintf(p, "%s/l2f.txt", file);
+//     f = fopen(p, "w");
+//     if(f != NULL){
+//         for(uint i = 0; i < 64; i++){
+//             fprintf(f, "~~~~~~~~~~~~~~N(%u):\n", i);
+//             for(uint j = 0; j < 32; j++){
+//                 fprintf(f, "D(%u): ", j);
+//                 for(uint k = 0; k < 9; k++)
+//                     fprintf(f, "%.2f ", net->l2f[i][j][k]);
+//                 fprintf(f, ":: %f\n", net->l2fb[i][0]);
+//             }fprintf(f, "\n");
+//         }fclose(f);}
+//     sprintf(p, "%s/l3f.txt", file);
+//     f = fopen(p, "w");
+//     if(f != NULL){
+//         for(uint i = 0; i < 128; i++){
+//             fprintf(f, "~~~~~~~~~~~~~~N(%u):\n", i);
+//             for(uint j = 0; j < 64; j++){
+//                 fprintf(f, "D(%u): ", j);
+//                 for(uint k = 0; k < 9; k++)
+//                     fprintf(f, "%.2f ", net->l3f[i][j][k]);
+//                 fprintf(f, ":: %f\n", net->l3fb[i][0]);
+//             }fprintf(f, "\n");
+//         }fclose(f);}
+//     sprintf(p, "%s/o1.txt", file);
+//     f = fopen(p, "w");
+//     if(f != NULL){
+//         for(uint i = 0; i < 32; i++){
+//             fprintf(f, "~~~~~~~~~~~~~~N(%u):\n", i);
+//             for(uint j = 0; j < 28; j++){
+//                 fprintf(f, "Y(%u): ", j);
+//                 for(uint k = 0; k < 28; k++)
+//                     fprintf(f, "%.2f ", net->o1[i][j][k]);
+//                 fprintf(f, "\n");
+//             }fprintf(f, "\n");
+//         }fclose(f);}
+//     sprintf(p, "%s/p1.txt", file);
+//     f = fopen(p, "w");
+//     if(f != NULL){
+//         for(uint i = 0; i < 32; i++){
+//             fprintf(f, "~~~~~~~~~~~~~~N(%u):\n", i);
+//             for(uint j = 0; j < 14; j++){
+//                 fprintf(f, "Y(%u): ", j);
+//                 for(uint k = 0; k < 14; k++)
+//                     fprintf(f, "%.2f ", net->p1[i][j][k]);
+//                 fprintf(f, "\n");
+//             }fprintf(f, "\n");
+//         }fclose(f);}
+//     sprintf(p, "%s/o2.txt", file);
+//     f = fopen(p, "w");
+//     if(f != NULL){
+//         for(uint i = 0; i < 64; i++){
+//             fprintf(f, "~~~~~~~~~~~~~~N(%u):\n", i);
+//             for(uint j = 0; j < 14; j++){
+//                 fprintf(f, "Y(%u): ", j);
+//                 for(uint k = 0; k < 14; k++)
+//                     fprintf(f, "%.2f ", net->o2[i][j][k]);
+//                 fprintf(f, "\n");
+//             }fprintf(f, "\n");
+//         }fclose(f);}
+//     sprintf(p, "%s/p2.txt", file);
+//     f = fopen(p, "w");
+//     if(f != NULL){
+//         for(uint i = 0; i < 64; i++){
+//             fprintf(f, "~~~~~~~~~~~~~~N(%u):\n", i);
+//             for(uint j = 0; j < 7; j++){
+//                 fprintf(f, "Y(%u): ", j);
+//                 for(uint k = 0; k < 7; k++)
+//                     fprintf(f, "%.2f ", net->p2[i][j][k]);
+//                 fprintf(f, "\n");
+//             }fprintf(f, "\n");
+//         }fclose(f);}
+//     sprintf(p, "%s/o3.txt", file);
+//     f = fopen(p, "w");
+//     if(f != NULL){
+//         for(uint i = 0; i < 128; i++){
+//             fprintf(f, "~~~~~~~~~~~~~~N(%u):\n", i);
+//             for(uint j = 0; j < 7; j++){
+//                 fprintf(f, "Y(%u): ", j);
+//                 for(uint k = 0; k < 7; k++)
+//                     fprintf(f, "%.2f ", net->o3[i][j][k]);
+//                 fprintf(f, "\n");
+//             }fprintf(f, "\n");
+//         }fclose(f);}
+//     sprintf(p, "%s/e1.txt", file);
+//     f = fopen(p, "w");
+//     if(f != NULL){
+//         for(uint i = 0; i < 32; i++){
+//             fprintf(f, "~~~~~~~~~~~~~~N(%u):\n", i);
+//             for(uint j = 0; j < 28; j++){
+//                 fprintf(f, "Y(%u): ", j);
+//                 for(uint k = 0; k < 28; k++)
+//                     fprintf(f, "%.2f ", net->e1[i][j][k]);
+//                 fprintf(f, "\n");
+//             }fprintf(f, "\n");
+//         }fclose(f);}
+//     sprintf(p, "%s/e2.txt", file);
+//     f = fopen(p, "w");
+//     if(f != NULL){
+//         for(uint i = 0; i < 64; i++){
+//             fprintf(f, "~~~~~~~~~~~~~~N(%u):\n", i);
+//             for(uint j = 0; j < 14; j++){
+//                 fprintf(f, "Y(%u): ", j);
+//                 for(uint k = 0; k < 14; k++)
+//                     fprintf(f, "%.2f ", net->e2[i][j][k]);
+//                 fprintf(f, "\n");
+//             }fprintf(f, "\n");
+//         }fclose(f);}
+//     sprintf(p, "%s/e3.txt", file);
+//     f = fopen(p, "w");
+//     if(f != NULL){
+//         for(uint i = 0; i < 128; i++){
+//             fprintf(f, "~~~~~~~~~~~~~~N(%u):\n", i);
+//             for(uint j = 0; j < 7; j++){
+//                 fprintf(f, "Y(%u): ", j);
+//                 for(uint k = 0; k < 7; k++)
+//                     fprintf(f, "%f ", net->e3[i][j][k]);
+//                 fprintf(f, "\n");
+//             }fprintf(f, "\n");
+//         }fclose(f);}
+// }
 
 static inline float TBVGG3_RELU(const float x)
 {
