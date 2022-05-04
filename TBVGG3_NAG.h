@@ -5,6 +5,8 @@
 --------------------------------------------------
     Tiny Binary VGG3
     https://github.com/tfcnn
+    
+    This version uses the Nesterov optimisation algorithm.
 
     This is an adaption inspired by the VGG series of networks.
 
