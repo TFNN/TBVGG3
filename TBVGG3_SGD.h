@@ -1,6 +1,6 @@
 /*
 --------------------------------------------------
-    James William Fletcher (james@voxdsp.com)
+    James William Fletcher (github.com/mrbid)
         JANUARY 2021 - TBVGG3_SGD
 --------------------------------------------------
     Tiny Binary VGG3
