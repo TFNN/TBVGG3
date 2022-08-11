@@ -198,7 +198,7 @@ int   TBVGG3_SaveNetwork(TBVGG3_Network* net, const char* file);
 int   TBVGG3_LoadNetwork(TBVGG3_Network* net, const char* file);
 
 #ifdef LINUX_DEBUG
-    void  TBVGG3_Dump(TBVGG3_Network* net, const char* file);
+    void TBVGG3_Dump(TBVGG3_Network* net, const char* file);
 #endif
 
 /*
