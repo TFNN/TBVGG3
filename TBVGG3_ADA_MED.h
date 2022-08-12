@@ -140,29 +140,29 @@
 struct
 {
     //filters:num, d,  w
-    float l1f[16 ][3 ][9];
-    float l2f[32 ][16][9];
+    float l1f[16][3 ][9];
+    float l2f[32][16][9];
     float l3f[64][32][9];
 
     // filter momentum's
-    float l1fm[16 ][3 ][9];
-    float l2fm[32 ][16][9];
+    float l1fm[16][3 ][9];
+    float l2fm[32][16][9];
     float l3fm[64][32][9];
 
     //~~ bias
     // filter bias's
-    float l1fb[16 ][1];
-    float l2fb[32 ][1];
+    float l1fb[16][1];
+    float l2fb[32][1];
     float l3fb[64][1];
 
     // filter bias momentum's
-    float l1fbm[16 ][1];
-    float l2fbm[32 ][1];
+    float l1fbm[16][1];
+    float l2fbm[32][1];
     float l3fbm[64][1];
 
     // filter bias error gradients
-    float l1fbe[16 ][1];
-    float l2fbe[32 ][1];
+    float l1fbe[16][1];
+    float l2fbe[32][1];
     float l3fbe[64][1];
     //~~ bias
 
