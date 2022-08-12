@@ -378,7 +378,7 @@ static inline float TBVGG3_ADA(const float input, const float error, float* mome
 {
     const float err = error * input;
     momentum[0] += err * err;
-    return (LEARNING_RATE / sqrtf(momentum[0] + net->epsilon)) * err;
+    return (LEARNING_RATE / sqrtf(momentum[0] + 1e-7f)) * err;
 }
 
 float TBVGG3_NormalRandom() // Box Muller
