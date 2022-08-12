@@ -101,7 +101,7 @@
         
         When a ReLU output is fed into a regular Sigmoid function the
         output of the ReLU will always be >0 and thus the output of the
-        Sigmoid will always be 0.5 - 1.0, and the Derivative will start
+        Sigmoid will always be 0.5 - 1.0, and the derivative will start
         at 0.25 and then reduce to 0 as the sigmoid input approaches 1.
         As such I have provided a suggested modification to the Sigmoid
         function `1-(1 / expf(x))` which will insure that the output ranges
