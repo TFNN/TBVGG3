@@ -419,21 +419,21 @@ void TBVGG3_Reset(TBVGG3_Network* net)
     // Weight Init
 
     //l1f
-    float d = sqrtf(2.0f / 35.f);
+    float d = sqrtf(2.0f / 19.f);
     for(uint i = 0; i < 16; i++)
         for(uint j = 0; j < 3; j++)
             for(uint k = 0; k < 9; k++)
                 net->l1f[i][j][k] = TBVGG3_NormalRandom() * d;
 
     //l2f
-    d = sqrtf(2.0f / 96.f);
+    d = sqrtf(2.0f / 48.f);
     for(uint i = 0; i < 32; i++)
         for(uint j = 0; j < 16; j++)
             for(uint k = 0; k < 9; k++)
                 net->l2f[i][j][k] = TBVGG3_NormalRandom() * d;
 
     //l3f
-    d = sqrtf(2.0f / 129.f);
+    d = sqrtf(2.0f / 96.f);
     for(uint i = 0; i < 64; i++)
         for(uint j = 0; j < 32; j++)
             for(uint k = 0; k < 9; k++)
