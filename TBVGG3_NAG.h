@@ -444,7 +444,7 @@ void TBVGG3_Reset(TBVGG3_Network* net)
                 net->l2f[i][j][k] = TBVGG3_NormalRandom() * d;
 
     //l3f
-    d = sqrtf(2.0f / 129.f);
+    d = sqrtf(2.0f / 192.f);
     for(uint i = 0; i < 128; i++)
         for(uint j = 0; j < 64; j++)
             for(uint k = 0; k < 9; k++)
