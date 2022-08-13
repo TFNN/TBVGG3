@@ -9,7 +9,7 @@ To learn more about the VGG Network coined by the [Oxford Visual Geometry Group]
 This is not associated with the Oxford Visual Geometry Group, the network is inspired by the VGG network, it is essentially a very similar type of network because it uses only 3x3 kernels. The number following VGG is the number of layers in the network, hence this network having been coined VGG3, and TBVGG3 because it has a Tiny footprint and a Binary output; making it the Tiny Binary VGG 3 (TBVGG3).
 
 ### TBVGG3 has a very simple interface
-_TBVGG3 is designed to take a 28x28 image with 3 colour channels (RGB) as input, preferably normalised -1 to +1._
+_TBVGG3 is designed to take a 28x28 image with 3 colour channels (RGB) as input, preferably normalised -1 to 1._
 ```
 #define TBVGG3_LEARNTYPE float
 #define LEARN_MAX 1.f
