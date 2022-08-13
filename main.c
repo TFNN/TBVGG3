@@ -3,7 +3,6 @@
 // gcc main.c -lm -Ofast -mavx -mfma -o main
 
 #include <signal.h>
-
 #define forceinline __attribute__((always_inline)) inline
 
 //#define LINUX_DEBUG
