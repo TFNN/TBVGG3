@@ -6,6 +6,7 @@
 #define forceinline __attribute__((always_inline)) inline
 
 //#define LINUX_DEBUG
+//#define UNIFORM_GLOROT
 #define SIGMOID_OUTPUT
 #include "TBVGG3_ADA_MED.h"
 #define NORMALISE_INPUTS
