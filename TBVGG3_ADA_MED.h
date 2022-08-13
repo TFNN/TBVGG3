@@ -9,6 +9,7 @@
     This version uses the ADAGRAD optimisation algorithm.
     
     ** I have also revisied the bias implementation.
+    ** output is now a linear layer and not sigmoid
 
     This is an adaption inspired by the VGG series of networks.
 
@@ -129,7 +130,7 @@
 
 #define uint unsigned int
 #define sint int
-#define LEARNING_RATE 0.01f
+#define LEARNING_RATE 0.001f
 #define GAIN          0.0065f
 
 /*
@@ -179,13 +180,10 @@ struct
 }
 typedef TBVGG3_Network;
 
-enum 
-{
-    LEARN_MAX = 1,
-    LEARN_MIN = 0,
-    NO_LEARN  = -1
-}
-typedef TBVGG3_LEARNTYPE;
+#define TBVGG3_LEARNTYPE float
+#define LEARN_MAX 1.f
+#define LEARN_MIN 0.f
+#define NO_LEARN -1.f
 
 /*
 --------------------------------------
@@ -199,7 +197,7 @@ int   TBVGG3_SaveNetwork(TBVGG3_Network* net, const char* file);
 int   TBVGG3_LoadNetwork(TBVGG3_Network* net, const char* file);
 
 #ifdef LINUX_DEBUG
-    void TBVGG3_Dump(TBVGG3_Network* net, const char* file);
+    void TBVGG3_Dump(TBVGG3_Network* net, const char* folder);
 #endif
 
 /*
@@ -209,11 +207,11 @@ int   TBVGG3_LoadNetwork(TBVGG3_Network* net, const char* file);
 */
 
 #ifdef LINUX_DEBUG
-void TBVGG3_Dump(TBVGG3_Network* net, const char* file)
+void TBVGG3_Dump(TBVGG3_Network* net, const char* folder)
 {
     char p[256];
-    mkdir(file, 0777);
-    sprintf(p, "%s/l1f.txt", file);
+    mkdir(folder, 0777);
+    sprintf(p, "%s/l1f.txt", folder);
     FILE* f = fopen(p, "w");
     if(f != NULL){
         for(uint i = 0; i < 16; i++){
@@ -225,7 +223,7 @@ void TBVGG3_Dump(TBVGG3_Network* net, const char* file)
                 fprintf(f, ":: %f\n", net->l1fb[i][0]);
             }fprintf(f, "\n");
         }fclose(f);}
-    sprintf(p, "%s/l2f.txt", file);
+    sprintf(p, "%s/l2f.txt", folder);
     f = fopen(p, "w");
     if(f != NULL){
         for(uint i = 0; i < 32; i++){
@@ -237,7 +235,7 @@ void TBVGG3_Dump(TBVGG3_Network* net, const char* file)
                 fprintf(f, ":: %f\n", net->l2fb[i][0]);
             }fprintf(f, "\n");
         }fclose(f);}
-    sprintf(p, "%s/l3f.txt", file);
+    sprintf(p, "%s/l3f.txt", folder);
     f = fopen(p, "w");
     if(f != NULL){
         for(uint i = 0; i < 64; i++){
@@ -249,7 +247,7 @@ void TBVGG3_Dump(TBVGG3_Network* net, const char* file)
                 fprintf(f, ":: %f\n", net->l3fb[i][0]);
             }fprintf(f, "\n");
         }fclose(f);}
-    sprintf(p, "%s/o1.txt", file);
+    sprintf(p, "%s/o1.txt", folder);
     f = fopen(p, "w");
     if(f != NULL){
         for(uint i = 0; i < 16; i++){
@@ -261,7 +259,7 @@ void TBVGG3_Dump(TBVGG3_Network* net, const char* file)
                 fprintf(f, "\n");
             }fprintf(f, "\n");
         }fclose(f);}
-    sprintf(p, "%s/p1.txt", file);
+    sprintf(p, "%s/p1.txt", folder);
     f = fopen(p, "w");
     if(f != NULL){
         for(uint i = 0; i < 16; i++){
@@ -273,7 +271,7 @@ void TBVGG3_Dump(TBVGG3_Network* net, const char* file)
                 fprintf(f, "\n");
             }fprintf(f, "\n");
         }fclose(f);}
-    sprintf(p, "%s/o2.txt", file);
+    sprintf(p, "%s/o2.txt", folder);
     f = fopen(p, "w");
     if(f != NULL){
         for(uint i = 0; i < 32; i++){
@@ -285,7 +283,7 @@ void TBVGG3_Dump(TBVGG3_Network* net, const char* file)
                 fprintf(f, "\n");
             }fprintf(f, "\n");
         }fclose(f);}
-    sprintf(p, "%s/p2.txt", file);
+    sprintf(p, "%s/p2.txt", folder);
     f = fopen(p, "w");
     if(f != NULL){
         for(uint i = 0; i < 32; i++){
@@ -297,7 +295,7 @@ void TBVGG3_Dump(TBVGG3_Network* net, const char* file)
                 fprintf(f, "\n");
             }fprintf(f, "\n");
         }fclose(f);}
-    sprintf(p, "%s/o3.txt", file);
+    sprintf(p, "%s/o3.txt", folder);
     f = fopen(p, "w");
     if(f != NULL){
         for(uint i = 0; i < 64; i++){
@@ -309,7 +307,7 @@ void TBVGG3_Dump(TBVGG3_Network* net, const char* file)
                 fprintf(f, "\n");
             }fprintf(f, "\n");
         }fclose(f);}
-    sprintf(p, "%s/e1.txt", file);
+    sprintf(p, "%s/e1.txt", folder);
     f = fopen(p, "w");
     if(f != NULL){
         for(uint i = 0; i < 16; i++){
@@ -321,7 +319,7 @@ void TBVGG3_Dump(TBVGG3_Network* net, const char* file)
                 fprintf(f, "\n");
             }fprintf(f, "\n");
         }fclose(f);}
-    sprintf(p, "%s/e2.txt", file);
+    sprintf(p, "%s/e2.txt", folder);
     f = fopen(p, "w");
     if(f != NULL){
         for(uint i = 0; i < 32; i++){
@@ -333,7 +331,7 @@ void TBVGG3_Dump(TBVGG3_Network* net, const char* file)
                 fprintf(f, "\n");
             }fprintf(f, "\n");
         }fclose(f);}
-    sprintf(p, "%s/e3.txt", file);
+    sprintf(p, "%s/e3.txt", folder);
     f = fopen(p, "w");
     if(f != NULL){
         for(uint i = 0; i < 64; i++){
@@ -360,16 +358,16 @@ static inline float TBVGG3_RELU_D(const float x)
     return 0.f;
 }
 
-static inline float TBVGG3_SIGMOID(const float x)
-{
-    return 1.f-(1.f / expf(x));
-    //return 1.f / (1.f + expf(-x));
-}
+// static inline float TBVGG3_SIGMOID(const float x)
+// {
+//     return 1.f-(1.f / expf(x));
+//     //return 1.f / (1.f + expf(-x));
+// }
 
-static inline float TBVGG3_SIGMOID_D(const float x)
-{
-    return x * (1.f - x);
-}
+// static inline float TBVGG3_SIGMOID_D(const float x)
+// {
+//     return x * (1.f - x);
+// }
 
 static inline float TBVGG3_ADA(const float input, const float error, float* momentum)
 {
@@ -722,7 +720,7 @@ float TBVGG3_Process(TBVGG3_Network* net, const float input[3][28][28], const TB
         output += gap[i];
     output /= 64.f;
 
-    output = TBVGG3_SIGMOID(output);
+    //output = TBVGG3_SIGMOID(output);
 
     // return activation else backprop
     if(learn == NO_LEARN)
@@ -732,7 +730,11 @@ float TBVGG3_Process(TBVGG3_Network* net, const float input[3][28][28], const TB
     else
     {
         // error/gradient slope scaled by derivative
-        const float g0 = TBVGG3_SIGMOID_D(output) * (learn - output);
+        //const float g0 = TBVGG3_SIGMOID_D(output) * (learn - output);
+        //printf("g0: %f %f %f %f %f\n", g0, learn, output, (learn - output), TBVGG3_SIGMOID_D(output));
+
+        float g0 = learn - output;
+        //printf("g0: %f %f %f %f\n", g0, learn, output, (learn - output));
 
         // ********** Gradient Back Pass **********
 
@@ -746,6 +748,8 @@ float TBVGG3_Process(TBVGG3_Network* net, const float input[3][28][28], const TB
                 {
                     // set error
                     net->e3[i][j][k] = GAIN * TBVGG3_RELU_D(net->o3[i][j][k]) * g0;
+                    //printf("g0: %f\n", g0);
+                    //printf("e3: %f\n", net->e3[i][j][k]);
 
                     // every output error gradient for every filter weight :: per filter
                     for(uint d = 0; d < 32; d++) // depth
