@@ -187,13 +187,10 @@ struct
 }
 typedef TBVGG3_Network;
 
-enum 
-{
-    LEARN_MAX = 1,
-    LEARN_MIN = 0,
-    NO_LEARN  = -1
-}
-typedef TBVGG3_LEARNTYPE;
+#define TBVGG3_LEARNTYPE float
+#define LEARN_MAX 1.f
+#define LEARN_MIN 0.f
+#define NO_LEARN -1.f
 
 /*
 --------------------------------------
