@@ -16,7 +16,7 @@
 
         2. You can now select between NORMAL_GLOROT or UNIFORM_GLOROT
         weight initialisation by specifying `#define UNIFORM_GLOROT`
-        for uniform, otherwise normal is used by defaul.
+        for uniform, otherwise normal is used by default.
 
         Sigmoid output is better for normalised inputs and a linear
         output is better for unnormalised inputs.
