@@ -127,7 +127,7 @@
 
 #define uint unsigned int
 #define sint int
-#define LEARNING_RATE 0.01f
+#define LEARNING_RATE 0.001f
 #define GAIN          0.0065f
 
 /*
