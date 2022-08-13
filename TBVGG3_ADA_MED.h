@@ -8,9 +8,14 @@
     
     This version uses the ADAGRAD optimisation algorithm.
     
-    ** I have also revisied the bias implementation.
-    ** output is now a linear layer with sigmoid now optional
+    Release Notes:
+        1. I have revisied the bias implementation.
+
+        2. Output is now a linear layer with sigmoid now optional
         by specifying `#define SIGMOID_OUTPUT`
+
+        Sigmoid output is better for normalised inputs and a linear
+        output is better for unnormalised inputs.
 
     This is an adaption inspired by the VGG series of networks.
 
@@ -37,9 +42,7 @@
     I like to call the gradient the error, I am one of those.
 
     Configuration;
-        No batching of the forward passes before backproping the error,
-        my argument is that this is a network designed to be light-weight
-        and to be used for real-time training.
+        No batching of the forward passes before backproping.
 
         XAVIER GLOROT normal distribution weight initialisation.
         I read some places online that uniform GLOROT works
