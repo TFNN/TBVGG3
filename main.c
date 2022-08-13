@@ -192,7 +192,7 @@ int main()
         shuffle_dataset();
         printf("[%i] epoch loss: %f\n", i, epoch_loss);
         printf("[%i] avg epoch loss: %f\n", i, epoch_loss/MAX_SAMPLES);
-        printf("[%i] SPS: %.2f\n\n", i, ((float)MAX_SAMPLES)/((float)(time(0)-st)));
+        printf("[%i] SPS: %.2f\n\n", i, ((float)MAX_SAMPLES)/((float)(time(0)-st))); // samples per second
     }
 
     // done
