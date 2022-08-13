@@ -4,10 +4,9 @@
 
 #include <signal.h>
 
-#define uint unsigned int
 #define forceinline __attribute__((always_inline)) inline
 
-#define LINUX_DEBUG
+//#define LINUX_DEBUG
 #define SIGMOID_OUTPUT
 #include "TBVGG3_ADA_MED.h"
 #define NORMALISE_INPUTS
@@ -65,10 +64,12 @@ void generate_output(int sig_num)
     // save network
     TBVGG3_SaveNetwork(&net, "network.save");
 
+#ifdef LINUX_DEBUG
     // dump weights
     char fn[256];
     sprintf(fn, "debug/final");
     TBVGG3_Dump(&net, fn);
+#endif
 
     // done
     exit(0);
@@ -180,6 +181,7 @@ int main()
     for(int i = 0; i < EPOCHS; i++)
     {
         float epoch_loss = 0.f;
+        time_t st = time(0);
         for(int j = 0; j < MAX_SAMPLES; j++)
         {
             float r = 1.f - TBVGG3_Process(&net, targets[j], LEARN_MAX);
@@ -189,7 +191,8 @@ int main()
         }
         shuffle_dataset();
         printf("[%i] epoch loss: %f\n", i, epoch_loss);
-        printf("[%i] avg epoch loss: %f\n\n", i, epoch_loss/MAX_SAMPLES);
+        printf("[%i] avg epoch loss: %f\n", i, epoch_loss/MAX_SAMPLES);
+        printf("[%i] SPS: %.2f\n\n", i, ((float)MAX_SAMPLES)/((float)(time(0)-st)));
     }
 
     // done
