@@ -4,13 +4,13 @@
 
 #include <signal.h>
 
+#define uint unsigned int
+#define forceinline __attribute__((always_inline)) inline
+
 #define LINUX_DEBUG
 #define SIGMOID_OUTPUT
 #include "TBVGG3_ADA_MED.h"
 #define NORMALISE_INPUTS
-
-#define uint unsigned int
-#define forceinline __attribute__((always_inline)) inline
 
 #define MAX_SAMPLES 5179 // we use NONTARGET_SAMPLES as it's the smaller count
 #define TARGET_SAMPLES MAX_SAMPLES // 5216
