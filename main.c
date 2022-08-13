@@ -2,15 +2,12 @@
 // github.com/TFCNN/TBVGG3
 // gcc main.c -lm -Ofast -mavx -mfma -o main
 
-#include <time.h>
-#include <stdint.h>
-#include <unistd.h>
 #include <signal.h>
 
-#include <sys/file.h>
-
 #define LINUX_DEBUG
+#define SIGMOID_OUTPUT
 #include "TBVGG3_ADA_MED.h"
+#define NORMALISE_INPUTS
 
 #define uint unsigned int
 #define forceinline __attribute__((always_inline)) inline
@@ -26,44 +23,12 @@ float nontargets[NONTARGET_SAMPLES][3][28][28];
 TBVGG3_Network net;
 
 ///
-///// ----------
-#define FAST_PREDICTABLE_MODE
 
-int srandfq = 1988;
-void srandf(const int seed)
+static forceinline uint uRand(const uint min, const uint max)
 {
-    srandfq = seed;
+    static float rndmax = 1.f/(float)RAND_MAX;
+    return (((((float)rand())+1e-7f) * rndmax) * ((max+1)-min) ) + min;
 }
-
-forceinline float urandf() // 0 to 1
-{
-#ifdef FAST_PREDICTABLE_MODE
-    // https://www.musicdsp.org/en/latest/Other/273-fast-float-random-numbers.html
-    // moc.liamg@seir.kinimod
-    srandfq *= 16807;
-    return (float)(srandfq & 0x7FFFFFFF) * 4.6566129e-010f;
-#else
-    static const float FLOAT_UINT64_MAX = (float)UINT64_MAX;
-    int f = open("/dev/urandom", O_RDONLY | O_CLOEXEC);
-    uint64_t s = 0;
-    ssize_t result = read(f, &s, sizeof(uint64_t));
-    close(f);
-    return (((float)s)+1e-7f) / FLOAT_UINT64_MAX;
-#endif
-}
-
-forceinline float uRandFloat(const float min, const float max)
-{
-    return ( urandf() * (max-min) ) + min;
-}
-
-forceinline unsigned int uRand(const uint min, const uint umax)
-{
-    const uint max = umax + 1;
-    return ( urandf() * (max-min) ) + min;
-}
-///// ----------
-///
 
 void shuffle_dataset()
 {
@@ -114,6 +79,9 @@ int main()
     // ctrl+c callback
     signal(SIGINT, generate_output);
 
+    // seed random
+    srand(1988);
+
     // load targets
     printf("loading target data\n");
     for(int i = 0; i < TARGET_SAMPLES; i++)
@@ -135,7 +103,7 @@ int main()
                 return 0;
             }
 
-            // cast byte array to floats
+            // cast byte array to floats & normalise -1 to 1
             for(int y = 0; y < 28; y++)
             {
                 for(int x = 0; x < 28; x++)
@@ -143,9 +111,15 @@ int main()
                     const float r = (float)tb[(((28*y)+x)*3)];
                     const float g = (float)tb[(((28*y)+x)*3)+1];
                     const float b = (float)tb[(((28*y)+x)*3)+2];
+#ifdef NORMALISE_INPUTS
+                    targets[i][0][x][y] = (r-128.f)*0.003921568859f;
+                    targets[i][1][x][y] = (g-128.f)*0.003921568859f;
+                    targets[i][2][x][y] = (b-128.f)*0.003921568859f;
+#else
                     targets[i][0][x][y] = r;
                     targets[i][1][x][y] = g;
                     targets[i][2][x][y] = b;
+#endif
                 }
             }
 
@@ -175,7 +149,7 @@ int main()
                 return 0;
             }
 
-            // cast byte array to floats
+            // cast byte array to floats & normalise -1 to 1
             for(int y = 0; y < 28; y++)
             {
                 for(int x = 0; x < 28; x++)
@@ -183,9 +157,15 @@ int main()
                     const float r = (float)tb[(28*y)+x];
                     const float g = (float)tb[((28*y)+x)+1];
                     const float b = (float)tb[((28*y)+x)+2];
+#ifdef NORMALISE_INPUTS
+                    nontargets[i][0][x][y] = (r-128.f)*0.003921568859f;
+                    nontargets[i][1][x][y] = (g-128.f)*0.003921568859f;
+                    nontargets[i][2][x][y] = (b-128.f)*0.003921568859f;
+#else
                     nontargets[i][0][x][y] = r;
                     nontargets[i][1][x][y] = g;
                     nontargets[i][2][x][y] = b;
+#endif
                 }
             }
 
@@ -205,11 +185,11 @@ int main()
             float r = 1.f - TBVGG3_Process(&net, targets[j], LEARN_MAX);
             r += TBVGG3_Process(&net, nontargets[j], LEARN_MIN);
             epoch_loss += r;
-            //printf("[%i] loss: %.3f\n", j, r);
+            //printf("[%i] loss: %f\n", j, r);
         }
         shuffle_dataset();
-        printf("[%i] epoch loss: %.3f\n", i, epoch_loss);
-        printf("[%i] avg epoch loss: %.3f\n\n", i, epoch_loss/MAX_SAMPLES);
+        printf("[%i] epoch loss: %f\n", i, epoch_loss);
+        printf("[%i] avg epoch loss: %f\n\n", i, epoch_loss/MAX_SAMPLES);
     }
 
     // done
