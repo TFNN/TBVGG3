@@ -12,7 +12,7 @@
         1. I have revisied the bias implementation.
 
         2. Output is now a linear layer with sigmoid now optional
-        by specifying `#define SIGMOID_OUTPUT`
+        by specifying `#define SIGMOID_OUTPUT`.
 
         2. You can now select between NORMAL_GLOROT or UNIFORM_GLOROT
         weight initialisation by specifying `#define UNIFORM_GLOROT`
