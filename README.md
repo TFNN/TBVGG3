@@ -11,6 +11,7 @@ This is not associated with the Oxford Visual Geometry Group, the network is ins
 ### TBVGG3 has a very simple interface
 _TBVGG3 is designed to take a 28x28 image with 3 colour channels (RGB) as input._
 ```
+#define TBVGG3_LEARNTYPE float
 #define LEARN_MAX 1.f
 #define LEARN_MIN 0.f
 #define NO_LEARN -1.f
