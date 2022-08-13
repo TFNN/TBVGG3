@@ -9,7 +9,8 @@
     This version uses the ADAGRAD optimisation algorithm.
     
     ** I have also revisied the bias implementation.
-    ** output is now a linear layer and not sigmoid
+    ** output is now a linear layer with sigmoid now optional
+        by specifying `#define SIGMOID_OUTPUT`
 
     This is an adaption inspired by the VGG series of networks.
 
@@ -358,16 +359,18 @@ static inline float TBVGG3_RELU_D(const float x)
     return 0.f;
 }
 
-// static inline float TBVGG3_SIGMOID(const float x)
-// {
-//     return 1.f-(1.f / expf(x));
-//     //return 1.f / (1.f + expf(-x));
-// }
+#ifdef SIGMOID_OUTPUT
+static inline float TBVGG3_SIGMOID(const float x)
+{
+    return 1.f-(1.f / expf(x));
+    //return 1.f / (1.f + expf(-x));
+}
 
-// static inline float TBVGG3_SIGMOID_D(const float x)
-// {
-//     return x * (1.f - x);
-// }
+static inline float TBVGG3_SIGMOID_D(const float x)
+{
+    return x * (1.f - x);
+}
+#endif
 
 static inline float TBVGG3_ADA(const float input, const float error, float* momentum)
 {
@@ -720,7 +723,9 @@ float TBVGG3_Process(TBVGG3_Network* net, const float input[3][28][28], const TB
         output += gap[i];
     output /= 64.f;
 
-    //output = TBVGG3_SIGMOID(output);
+#ifdef SIGMOID_OUTPUT
+    output = TBVGG3_SIGMOID(output);
+#endif
 
     // return activation else backprop
     if(learn == NO_LEARN)
@@ -730,11 +735,13 @@ float TBVGG3_Process(TBVGG3_Network* net, const float input[3][28][28], const TB
     else
     {
         // error/gradient slope scaled by derivative
-        //const float g0 = TBVGG3_SIGMOID_D(output) * (learn - output);
+#ifdef SIGMOID_OUTPUT
+        const float g0 = TBVGG3_SIGMOID_D(output) * (learn - output);
         //printf("g0: %f %f %f %f %f\n", g0, learn, output, (learn - output), TBVGG3_SIGMOID_D(output));
-
+#else
         float g0 = learn - output;
         //printf("g0: %f %f %f %f\n", g0, learn, output, (learn - output));
+#endif
 
         // ********** Gradient Back Pass **********
 
