@@ -14,6 +14,10 @@
         2. Output is now a linear layer with sigmoid now optional
         by specifying `#define SIGMOID_OUTPUT`
 
+        2. You can now select between NORMAL_GLOROT or UNIFORM_GLOROT
+        weight initialisation by specifying `#define UNIFORM_GLOROT`
+        for uniform, otherwise normal is used by defaul.
+
         Sigmoid output is better for normalised inputs and a linear
         output is better for unnormalised inputs.
 
@@ -382,6 +386,19 @@ static inline float TBVGG3_ADA(const float input, const float error, float* mome
     return (LEARNING_RATE / sqrtf(momentum[0] + 1e-7f)) * err;
 }
 
+#ifdef UNIFORM_GLOROT
+float TBVGG3_UniformRandom()
+{
+    static const float rmax = (float)RAND_MAX;
+    float pr = 0.f;
+    while(pr == 0.f) //never return 0
+    {
+        const float rv2 = ( ( (((float)rand())+1e-7f) / rmax ) * 2.f ) - 1.f;
+        pr = roundf(rv2 * 100.f) / 100.f; // two decimals of precision
+    }
+    return pr;
+}
+#else
 float TBVGG3_NormalRandom() // Box Muller
 {
     static const float rmax = (float)RAND_MAX;
@@ -396,18 +413,7 @@ float TBVGG3_NormalRandom() // Box Muller
     }
     return u * sqrtf(-2.f * logf(r) / r);
 }
-
-float TBVGG3_UniformRandom()
-{
-    static const float rmax = (float)RAND_MAX;
-    float pr = 0.f;
-    while(pr == 0.f) //never return 0
-    {
-        const float rv2 = ( ( (((float)rand())+1e-7f) / rmax ) * 2.f ) - 1.f;
-        pr = roundf(rv2 * 100.f) / 100.f; // two decimals of precision
-    }
-    return pr;
-}
+#endif
 
 void TBVGG3_Reset(TBVGG3_Network* net)
 {
@@ -419,6 +425,28 @@ void TBVGG3_Reset(TBVGG3_Network* net)
     // XAVIER GLOROT NORMAL
     // Weight Init
 
+#ifdef UNIFORM_GLOROT
+    //l1f
+    float d = sqrtf(6.0f / 19.f);
+    for(uint i = 0; i < 16; i++)
+        for(uint j = 0; j < 3; j++)
+            for(uint k = 0; k < 9; k++)
+                net->l1f[i][j][k] = TBVGG3_UniformRandom() * d;
+
+    //l2f
+    d = sqrtf(6.0f / 48.f);
+    for(uint i = 0; i < 32; i++)
+        for(uint j = 0; j < 16; j++)
+            for(uint k = 0; k < 9; k++)
+                net->l2f[i][j][k] = TBVGG3_UniformRandom() * d;
+
+    //l3f
+    d = sqrtf(6.0f / 96.f);
+    for(uint i = 0; i < 64; i++)
+        for(uint j = 0; j < 32; j++)
+            for(uint k = 0; k < 9; k++)
+                net->l3f[i][j][k] = TBVGG3_UniformRandom() * d;
+#else
     //l1f
     float d = sqrtf(2.0f / 19.f);
     for(uint i = 0; i < 16; i++)
@@ -439,6 +467,7 @@ void TBVGG3_Reset(TBVGG3_Network* net)
         for(uint j = 0; j < 32; j++)
             for(uint k = 0; k < 9; k++)
                 net->l3f[i][j][k] = TBVGG3_NormalRandom() * d;
+#endif
     
     // zero momentum
     memset(net->l1fm, 0, sizeof(net->l1fm));
