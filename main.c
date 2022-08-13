@@ -155,9 +155,9 @@ int main()
             {
                 for(int x = 0; x < 28; x++)
                 {
-                    const float r = (float)tb[(28*y)+x];
-                    const float g = (float)tb[((28*y)+x)+1];
-                    const float b = (float)tb[((28*y)+x)+2];
+                    const float r = (float)tb[(((28*y)+x)*3)];
+                    const float g = (float)tb[(((28*y)+x)*3)+1];
+                    const float b = (float)tb[(((28*y)+x)*3)+2];
 #ifdef NORMALISE_INPUTS
                     nontargets[i][0][x][y] = (r-128.f)*0.003921568859f;
                     nontargets[i][1][x][y] = (g-128.f)*0.003921568859f;
