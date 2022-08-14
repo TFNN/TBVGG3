@@ -1,7 +1,7 @@
 /*
 --------------------------------------------------
     James William Fletcher (github.com/mrbid)
-        AUGUST 2022 - TBVGG3_ADA_MED
+        AUGUST 2022 - TBVGG3_ADA16
 --------------------------------------------------
     Tiny Binary VGG3
     https://github.com/tfcnn
@@ -116,11 +116,7 @@
         of 0.5.
 
     Network size:
-        (3x28x28)+(16x3x9)+(32x16x9)+(64x32x9)+(16x3x9)+(32x16x9)+
-        (64x32x9)+(16x28x28)+(16x14x14)+(32x14x14)+(32x7x7)+
-        (64x7x7)+(16x28x28)+(32x14x14)+(64x7x7)+(16+32+64)+
-        (16+32+64) = 98,128 floats
-        98128*4 = 392,512 bytes = 0.392512 megabytes
+        374.1 KiB (383,104 bytes)
 */
 
 #ifndef TBVGG3_H
