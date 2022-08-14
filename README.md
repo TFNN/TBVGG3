@@ -14,7 +14,7 @@ _TBVGG3 is designed to take a 28x28 image with 3 colour channels (RGB) as input,
 #define TBVGG3_LEARNTYPE float
 #define LEARN_MAX 1.f
 #define LEARN_MIN 0.f
-#define NO_LEARN -1.f
+#define NO_LEARN -1.f // pass this when you only require a forward pass.
 
 float TBVGG3_Process(TBVGG3_Network* net, const float input[3][28][28], const TBVGG3_LEARNTYPE learn);
 void  TBVGG3_Reset(TBVGG3_Network* net);
