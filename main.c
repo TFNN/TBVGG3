@@ -8,7 +8,9 @@
 //#define LINUX_DEBUG
 //#define UNIFORM_GLOROT
 #define SIGMOID_OUTPUT
-#include "TBVGG3_ADA_MED.h"
+//#include "TBVGG3_ADA8.h"
+#include "TBVGG3_ADA16.h"
+//#include "TBVGG3_ADA32.h"
 #define NORMALISE_INPUTS
 
 #define MAX_SAMPLES 5179 // we use NONTARGET_SAMPLES as it's the smaller count
