@@ -29,6 +29,9 @@
     overcomplicate it in your first attempt, method 4 or 5 is a good
     start and if that goes well you *might* be able to squeeze out
     more accuracy with stddev normalisation.
+    
+    Working your way starting from 5 to 1 is probably your best bet
+    to find the best solution for your dataset.
 */
 
 #define MAX_SAMPLES 5179 // we use NONTARGET_SAMPLES as it's the smaller count
