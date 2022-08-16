@@ -18,9 +18,9 @@
         Sigmoid output is better for normalised inputs and a linear
         output is better for unnormalised inputs.
 
-        There are three supported sizes of this network, 8, L1, and L2.
-        You can select between them by defining `#define ADA8`, ADAL1
-        or ADAL2.
+        There are three supported sizes of this network, 8, 16, and 32.
+        You can select between them by defining `#define ADA8`, ADA16
+        or ADA32.
 
     Information:
 
