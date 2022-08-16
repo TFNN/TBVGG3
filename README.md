@@ -2,7 +2,7 @@
 
 A Convolutional Neural Network Library written in C
 
-The dataset used in the example provided [main.c](main.c) is [CSGO.zip](https://github.com/TFNN/DOCS/tree/main/DATASETS) from [DOCS/DATASETS](https://github.com/TFNN/DOCS/tree/main/DATASETS).
+The dataset used in the example provided [main.c](main.c) is [CSGO.zip](https://github.com/TFNN/DOCS/tree/main/DATASETS) from [DOCS/DATASETS](https://github.com/TFNN/DOCS/tree/main/DATASETS). An implementation is available [here](https://github.com/jcwml/CSGO-Trigger-Bot).
 
 To learn more about the VGG Network coined by the [Oxford Visual Geometry Group](https://www.robots.ox.ac.uk/~vgg/) the Tensorflow Keras documentation has good coverage of the two mainstream options VGG16 and VGG19 [here](https://keras.io/api/applications/vgg/).
 
