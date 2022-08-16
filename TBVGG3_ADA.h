@@ -37,13 +37,13 @@
         by Karen Simonyan and Andrew Zisserman, the original paper is
         available here; https://arxiv.org/abs/1409.1556
 
-            TBVGG3
+            TBVGG3 (ADA16)
             :: ReLU + 0 Padding
-            28x28 xL1
+            28x28 x16
             > maxpool
-            14x14 xL2
+            14x14 x32
             > maxpool
-            7x7 xL3
+            7x7 x64
             > GAP + Average
 
         I like to call the gradient the error at times.
@@ -54,10 +54,13 @@
 
         XAVIER GLOROT normal distribution weight initialisation.
         I read some places online that uniform GLOROT works
-        better in CNN's, this is something I really need to
-        benchmark for myself at some point. Since the original
-        VGG paper references GLOROT with normal distribution,
-        this is what I chose initially.
+        better in CNN's, the truth is they both have their
+        score sheet of gains and losses. I find normal is a
+        smoother descent but uniform can reach lower losses
+        although this is completely subjective to my bias.
+        
+        Since the original VGG paper references GLOROT with
+        normal distribution, this is what I chose as the defacto.
 
         expected input RGB 28x28 pixels;
         float input[3][28][28];
@@ -109,8 +112,8 @@
     Network size:
 
         ADA8:  23.6  KiB (24,128  bytes)
-        ADAL1: 92.1  KiB (94,336  bytes)
-        ADAL2: 364.2 KiB (372,992 bytes)
+        ADA16: 92.1  KiB (94,336  bytes)
+        ADA32: 364.2 KiB (372,992 bytes)
 
 */
 
