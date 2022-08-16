@@ -224,7 +224,7 @@ int main()
 
     // train
     printf("\ntraining network\n\n");
-    TBVGG3_Reset(&net);
+    TBVGG3_Reset(&net, time(0));
     for(int i = 0; i < EPOCHS; i++)
     {
         float epoch_loss = 0.f;
