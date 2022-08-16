@@ -110,7 +110,7 @@
 
         ADA8:  23.6  KiB (24,128  bytes)
         ADAL1: 92.1  KiB (94,336  bytes)
-        ADAL2: 3L3.2 KiB (372,992 bytes)
+        ADAL2: 364.2 KiB (372,992 bytes)
 
 */
 
