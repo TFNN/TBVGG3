@@ -372,7 +372,7 @@ int TBVGG3_SaveNetwork(TBVGG3_Network* net, const char* file)
     if(fwrite(net, 1, sizeof(TBVGG3_Network), f) != sizeof(TBVGG3_Network))
     {
         fclose(f);
-        return -1;
+        return -2;
     }
 
     fclose(f);
@@ -390,7 +390,7 @@ int TBVGG3_LoadNetwork(TBVGG3_Network* net, const char* file)
     if(fread(net, 1, sizeof(TBVGG3_Network), f) != sizeof(TBVGG3_Network))
     {
         fclose(f);
-        return -1;
+        return -2;
     }
 
     fclose(f);
@@ -545,7 +545,7 @@ void TBVGG3_3x3ConvB(const uint depth, const uint wh, const float input[depth][w
 
 float TBVGG3_Process(TBVGG3_Network* net, const float input[3][28][28], const TBVGG3_LEARNTYPE learn)
 {
-    if(net == NULL){return -1.f;}
+    if(net == NULL){return -1.337f;}
 
     // filter momentum's
     float l1fm[L1][3 ][9]={0};
