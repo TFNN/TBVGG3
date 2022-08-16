@@ -25,7 +25,7 @@ TBVGG3_Network net;
 
 ///
 
-static forceinline uint uRand(const uint min, const uint max)
+static forceinline uint uRand(const uint min, const uint max) // better if the params are floats
 {
     static float rndmax = 1.f/(float)RAND_MAX;
     return ((((float)rand()) * rndmax) * ((max+1)-min) ) + min;
