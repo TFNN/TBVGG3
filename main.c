@@ -14,6 +14,27 @@
 #define NORMALISE_INPUTS
 //#define TRAIN_NONTARGETS
 
+/*
+    In my first ever TBVGG3 implementation on the first CS:GO dataset
+    I mean normalised every image by the standard deviation of the
+    entire dataset, not by mini batches.
+    
+    There are a few main arguments to how one should normalise image data:
+    1. stddev of dataset
+    2. stddev of mini batch
+    3. stddev per image
+    4. 0-1 scaling per pixel
+    5. -1 to +1 scaling per pixel
+    
+    What you choose, ultimately depends on your dataset, but don't
+    overcomplicate it in your first attempt, method 4 or 5 is a good
+    start and if that goes well you *might* be able to squeeze out
+    more accuracy with stddev normalisation.
+    
+    Working your way starting from 5 to 1 is probably your best bet
+    to find the best solution for your dataset.
+*/
+
 #define MAX_SAMPLES 5179 // we use NONTARGET_SAMPLES as it's the smaller count
 #define TARGET_SAMPLES MAX_SAMPLES // 5216
 #define NONTARGET_SAMPLES MAX_SAMPLES // 5179
