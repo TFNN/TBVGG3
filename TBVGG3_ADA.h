@@ -135,7 +135,7 @@
 #endif
 
 #if !defined(ADA8) && !defined(ADA16) && !defined(ADA32)
-    #define ADAL1
+    #define ADA16
 #endif
 
 #ifdef ADA8
@@ -192,7 +192,7 @@ typedef TBVGG3_Network;
 */
 
 float TBVGG3_Process(TBVGG3_Network* net, const float input[3][28][28], const TBVGG3_LEARNTYPE learn);
-void  TBVGG3_Reset(TBVGG3_Network* net);
+void  TBVGG3_Reset(TBVGG3_Network* net, uint seed);
 int   TBVGG3_SaveNetwork(TBVGG3_Network* net, const char* file);
 int   TBVGG3_LoadNetwork(TBVGG3_Network* net, const char* file);
 void  TBVGG3_Debug(TBVGG3_Network* net);
@@ -273,7 +273,6 @@ static inline float TBVGG3_RELU_D(const float x)
 static inline float TBVGG3_SIGMOID(const float x)
 {
     return 1.f-(1.f / expf(x));
-    //return 1.f / (1.f + expf(-x));
 }
 
 static inline float TBVGG3_SIGMOID_D(const float x)
@@ -290,40 +289,43 @@ static inline float TBVGG3_ADA(const float input, const float error, float* mome
 }
 
 #ifdef UNIFORM_GLOROT
-float TBVGG3_RandomWeight()
+float TBVGG3_RandomWeight() // Uniform
 {
-    static const float rmax = (float)RAND_MAX;
+    static const float rmax = 1.f/(float)RAND_MAX;
     float pr = 0.f;
     while(pr == 0.f) //never return 0
     {
-        const float rv2 = ( ( (((float)rand())+1e-7f) / rmax ) * 2.f ) - 1.f;
-        pr = roundf(rv2 * 100.f) / 100.f; // two decimals of precision
+        const float rv2 = ( ( ((float)rand()) * rmax ) * 2.f ) - 1.f;
+        pr = roundf(rv2 * 100.f) * 0.01f; // two decimals of precision
     }
     return pr;
 }
 #else
-float TBVGG3_RandomWeight() // Box Muller
+float TBVGG3_RandomWeight() // Box Muller Normal
 {
-    static const float rmax = (float)RAND_MAX;
-    float u = ( (((float)rand())+1e-7f) / rmax) * 2.f - 1.f;
-    float v = ( (((float)rand())+1e-7f) / rmax) * 2.f - 1.f;
+    static const float rmax = 1.f/(float)RAND_MAX;
+    float u = ( ((float)rand()) * rmax) * 2.f - 1.f;
+    float v = ( ((float)rand()) * rmax) * 2.f - 1.f;
     float r = u * u + v * v;
     while(r == 0.f || r > 1.f)
     {
-        u = ( (((float)rand())+1e-7f) / rmax) * 2.f - 1.f;
-        v = ( (((float)rand())+1e-7f) / rmax) * 2.f - 1.f;
+        u = ( ((float)rand()) * rmax) * 2.f - 1.f;
+        v = ( ((float)rand()) * rmax) * 2.f - 1.f;
         r = u * u + v * v;
     }
     return u * sqrtf(-2.f * logf(r) / r);
 }
 #endif
 
-void TBVGG3_Reset(TBVGG3_Network* net)
+void TBVGG3_Reset(TBVGG3_Network* net, uint seed)
 {
     if(net == NULL){return;}
 
     // seed random
-    srand(time(0));
+    if(seed == 0)
+        srand(time(0));
+    else
+        srand(seed);
 
     // XAVIER GLOROT NORMAL
     // Weight Init
@@ -349,7 +351,7 @@ void TBVGG3_Reset(TBVGG3_Network* net)
                 net->l2f[i][j][k] = TBVGG3_RandomWeight() * d;
 
     //l3f
-    d = sqrtf(dividend / L2+L3);
+    d = sqrtf(dividend / (L2+L3));
     for(uint i = 0; i < L3; i++)
         for(uint j = 0; j < L2; j++)
             for(uint k = 0; k < 9; k++)
@@ -620,7 +622,7 @@ float TBVGG3_Process(TBVGG3_Network* net, const float input[3][28][28], const TB
         for(uint j = 0; j < 7; j++)
             for(uint k = 0; k < 7; k++)
                 gap[i] += o3[i][j][k];
-        gap[i] /= 49.f;
+        gap[i] *= 0.02040816285f; // 1/49
     }
 
     // average final activation
