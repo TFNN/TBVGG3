@@ -554,14 +554,14 @@ float TBVGG3_Process(TBVGG3_Network* net, const float input[3][28][28], const TB
     if(net == NULL){return -1.f;}
 
     // filter momentum's
-    float l1fm[32][3 ][9];
-    float l2fm[64][32][9];
-    float l3fm[128][64][9];
+    float l1fm[32 ][3 ][9]={0};
+    float l2fm[64 ][32][9]={0};
+    float l3fm[128][64][9]={0};
 
     // filter bias momentum's
-    float l1fbm[32][1];
-    float l2fbm[64][1];
-    float l3fbm[128][1];
+    float l1fbm[32 ][1]={0};
+    float l2fbm[64 ][1]={0};
+    float l3fbm[128][1]={0};
 
     // outputs
     //       d,  y,  x
