@@ -37,13 +37,13 @@
     to find the best solution for your dataset.
 */
 
-#define MAX_SAMPLES 5179 // we use NONTARGET_SAMPLES as it's the smaller count
+#define MAX_SAMPLES 5179 // we use NONTARGET_SAMPLES as it's the smaller of the two counts
 #define TARGET_SAMPLES MAX_SAMPLES // 5216
 #define NONTARGET_SAMPLES MAX_SAMPLES // 5179
 #define SAMPLE_SIZE 2352
 #define EPOCHS 333333333
 
-float targets[TARGET_SAMPLES][3][28][28];
+float targets[TARGET_SAMPLES][3][28][28] = {0};
 #ifdef TRAIN_NONTARGETS
     float nontargets[NONTARGET_SAMPLES][3][28][28] = {0};
 #endif
