@@ -9,7 +9,7 @@
     This version uses the ADAGRAD optimisation algorithm.
     
     Release Notes:
-        1. I have revisied the bias implementation.
+        1. I have revised the bias implementation.
 
         2. Output is now a linear layer with sigmoid now optional
         by specifying `#define SIGMOID_OUTPUT`.
@@ -783,8 +783,6 @@ float TBVGG3_Process(TBVGG3_Network* net, const float input[3][28][28], const TB
                 {
                     // set error
                     net->e3[i][j][k] = GAIN * TBVGG3_RELU_D(net->o3[i][j][k]) * g0;
-                    //printf("g0: %f\n", g0);
-                    //printf("e3: %f\n", net->e3[i][j][k]);
 
                     // every output error gradient for every filter weight :: per filter
                     for(uint d = 0; d < 32; d++) // depth
