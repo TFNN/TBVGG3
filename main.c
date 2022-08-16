@@ -7,10 +7,11 @@
 
 //#define LINUX_DEBUG
 //#define UNIFORM_GLOROT
+#define ADA16
+#define LEARNING_RATE 0.0001f
+#define GAIN          0.0065f
 #define SIGMOID_OUTPUT
-//#include "TBVGG3_ADA8.h"
-#include "TBVGG3_ADA16.h"
-//#include "TBVGG3_ADA32.h"
+#include "TBVGG3_ADA.h"
 #define NORMALISE_INPUTS
 #define TRAIN_NONTARGETS
 #define NONTARGETS_ZERO // strangely training the network to output zero with zero'd input data improves the accuracy O_o
@@ -240,6 +241,7 @@ int main()
         shuffle_dataset();
         printf("[%i] epoch loss: %f\n", i, epoch_loss);
         printf("[%i] avg epoch loss: %f\n", i, epoch_loss/MAX_SAMPLES);
+        TBVGG3_Debug(&net);
         printf("[%i] SPS: %.2f\n\n", i, ((float)MAX_SAMPLES)/((float)(time(0)-st))); // samples per second
     }
 
