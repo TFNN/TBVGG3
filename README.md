@@ -25,10 +25,10 @@ int   TBVGG3_LoadNetwork(TBVGG3_Network* net, const char* file);
 ### Example Usage
 ```
 TBVGG3_Network net;
-TBVGG3_Reset(&net) // this will initialise the weights
-// now you can train the network with TBVGG3_Process(&net, &inputs, LEARN_MAX)
-// or query a trained network with TBVGG3_Process(&net, &inputs, NO_LEARN)
+TBVGG3_Reset(&net); // this will initialise the weights
+// now you can train the network with TBVGG3_Process(&net, &inputs, LEARN_MAX);
+// or query a trained network with TBVGG3_Process(&net, &inputs, NO_LEARN);
 ```
-_It is important that you always call `TBVGG3_Reset()` on a newly created network to initialise the weights._ 
+_It is important that you always call `TBVGG3_Reset();` on a newly created network to initialise the weights._ 
 
 _An implementation is available [here](https://github.com/jcwml/CSGO-Trigger-Bot)._
