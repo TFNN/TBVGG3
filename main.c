@@ -112,10 +112,12 @@ int main()
     {
         char fn[256];
         sprintf(fn, "target/%i.ppm", i+1);
-        printf("%s\n", fn);
         FILE* f = fopen(fn, "rb");
         if(f)
         {
+            // notify load
+            printf("%s\n", fn);
+            
             // seek past ppm header
             fseek(f, 13, SEEK_SET);
 
@@ -158,10 +160,12 @@ int main()
     {
         char fn[256];
         sprintf(fn, "nontargets/%i.ppm", i+1);
-        printf("%s\n", fn);
         FILE* f = fopen(fn, "rb");
         if(f)
         {
+            // notify load
+            printf("%s\n", fn);
+            
             // seek past ppm header
             fseek(f, 13, SEEK_SET);
 
