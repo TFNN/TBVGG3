@@ -11,15 +11,25 @@ This is not associated with the Oxford Visual Geometry Group, the network is ins
 ### TBVGG3 has a very simple interface
 _TBVGG3 is designed to take a 28x28 image with 3 colour channels (RGB) as input, preferably normalised -1 to 1._
 ```
+// options that can be defined before including TBVGG3_ADA.h
+#define SIGMOID_OUTPUT // or default: linear layer
+#define UNIFORM_GLOROT // or default: normal glorot
+#define ADA8 // or default: ADA16
+#define ADA32 // or default: ADA16
+#define LEARNING_RATE 0.01f // or default: 0.001f
+#define GAIN 1.f // or default: 0.0065f
+
 #define TBVGG3_LEARNTYPE float
 #define LEARN_MAX 1.f
 #define LEARN_MIN 0.f
 #define NO_LEARN -1.f // pass this when you only require a forward pass.
-
 float TBVGG3_Process(TBVGG3_Network* net, const float input[3][28][28], const TBVGG3_LEARNTYPE learn);
+
 void  TBVGG3_Reset(TBVGG3_Network* net);
 int   TBVGG3_SaveNetwork(TBVGG3_Network* net, const char* file);
 int   TBVGG3_LoadNetwork(TBVGG3_Network* net, const char* file);
+
+void  TBVGG3_Debug(TBVGG3_Network* net); // print layer stats
 ```
 
 ### Example Usage
