@@ -168,7 +168,7 @@
 // network struct
 struct
 {
-    //filters:num, d,  w
+    //filters:num, d, w
     float l1f[L1][3 ][9];
     float l2f[L2][L1][9];
     float l3f[L3][L2][9];
@@ -192,7 +192,7 @@ typedef TBVGG3_Network;
 */
 
 float TBVGG3_Process(TBVGG3_Network* net, const float input[3][28][28], const TBVGG3_LEARNTYPE learn);
-void  TBVGG3_Reset(TBVGG3_Network* net, uint seed);
+void  TBVGG3_Reset(TBVGG3_Network* net, const uint seed);
 int   TBVGG3_SaveNetwork(TBVGG3_Network* net, const char* file);
 int   TBVGG3_LoadNetwork(TBVGG3_Network* net, const char* file);
 void  TBVGG3_Debug(TBVGG3_Network* net);
@@ -317,7 +317,7 @@ float TBVGG3_RandomWeight() // Box Muller Normal
 }
 #endif
 
-void TBVGG3_Reset(TBVGG3_Network* net, uint seed)
+void TBVGG3_Reset(TBVGG3_Network* net, const uint seed)
 {
     if(net == NULL){return;}
 
@@ -327,9 +327,7 @@ void TBVGG3_Reset(TBVGG3_Network* net, uint seed)
     else
         srand(seed);
 
-    // XAVIER GLOROT NORMAL
     // Weight Init
-
 #ifdef UNIFORM_GLOROT
     const float dividend = 6.0f; // uniform
 #else
