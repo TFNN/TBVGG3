@@ -12,7 +12,8 @@
 #include "TBVGG3_ADA16.h"
 //#include "TBVGG3_ADA32.h"
 #define NORMALISE_INPUTS
-//#define TRAIN_NONTARGETS
+#define TRAIN_NONTARGETS
+#define NONTARGETS_ZERO // strangely training the network to output zero with zero'd input data improves the accuracy O_o
 
 /*
     In my first ever TBVGG3 implementation on the first CS:GO dataset
@@ -53,6 +54,15 @@ static forceinline uint uRand(const uint min, const uint max)
 {
     static float rndmax = 1.f/(float)RAND_MAX;
     return ((((float)rand()) * rndmax) * ((max+1)-min) ) + min;
+}
+
+int srandfq = 1988;
+forceinline float urandfc() // -1 to 1
+{
+    // https://www.musicdsp.org/en/latest/Other/273-fast-f32-random-numbers.html
+    // moc.liamg@seir.kinimod
+    srandfq *= 16807;
+    return ((float)srandfq) * 4.6566129e-010f;
 }
 
 void shuffle_dataset()
@@ -160,6 +170,7 @@ int main()
     }
 
 #ifdef TRAIN_NONTARGETS
+#ifndef NONTARGETS_ZERO
     // load nontargets
     printf("\nloading nontarget data\n");
     for(int i = 0; i < MAX_SAMPLES; i++)
@@ -207,6 +218,7 @@ int main()
             fclose(f);
         }
     }
+#endif
 #endif
 
     // train
