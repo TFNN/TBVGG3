@@ -44,7 +44,7 @@
 
 float targets[TARGET_SAMPLES][3][28][28];
 #ifdef TRAIN_NONTARGETS
-    float nontargets[NONTARGET_SAMPLES][3][28][28];
+    float nontargets[NONTARGET_SAMPLES][3][28][28] = {0};
 #endif
 TBVGG3_Network net;
 
