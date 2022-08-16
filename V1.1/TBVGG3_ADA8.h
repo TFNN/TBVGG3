@@ -442,7 +442,7 @@ void TBVGG3_Reset(TBVGG3_Network* net)
 #endif
 
     // reset bias
-    memset(net->l1fb, 0, sizeof(net->l1fb));    // bias
+    memset(net->l1fb, 0, sizeof(net->l1fb));
     memset(net->l2fb, 0, sizeof(net->l2fb));
     memset(net->l3fb, 0, sizeof(net->l3fb));
 }
@@ -492,21 +492,11 @@ void TBVGG3_2x2MaxPool(const uint depth, const uint wh, const float input[depth]
         uint oi = 0, oj = 0;
 
         // for every 2x2 chunk of input
-        for(uint i = 0; i < wh; i += 2, oi++)
+        const uint wh1 = wh-1;
+        for(uint i = 0; i < wh1; i += 2, oi++)
         {
-            for(uint j = 0; j < wh; j += 2, oj++)
+            for(uint j = 0; j < wh1; j += 2, oj++)
             {
-                // // get 2x2 chunk from input
-                // const float f[] = {input[d][i][j], input[d][i+1][j], input[d][i][j+1], input[d][i+1][j+1]};
-
-                // // iterate 2x2 chunk for max val
-                // float max = 0;
-                // for(uint k = 0; k < 4; k++)
-                //     if(f[k] > max)
-                //         max = f[k];
-
-                // printf("O0: %u %u\n", depth, wh);
-                
                 // get max val
                 float max = 0.f;
                 if(input[d][i][j] > max)
@@ -518,14 +508,8 @@ void TBVGG3_2x2MaxPool(const uint depth, const uint wh, const float input[depth]
                 if(input[d][i+1][j+1] > max)
                     max = input[d][i+1][j+1];
 
-                // printf("O1: %ux%u : %.2f %.2f %.2f %.2f\n", i, j, input[d][i][j], input[d][i][j+1], input[d][i+1][j], input[d][i+1][j+1]);
-
                 // output max val
                 output[d][oi][oj] = max;
-
-                // printf("O2: %ux%u : %.2f %.2f\n", oi, oj, output[d][oi][oj], max);
-                // char in[256];
-                // fgets(in, 256, stdin);
             }
             oj = 0;
         }
