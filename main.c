@@ -21,7 +21,7 @@
     There are a few main arguments to how one should normalise image data:
     1. stddev of dataset
     2. stddev of mini batch
-    3. stddev of colour channel (per image)
+    3. stddev per image
     4. 0-1 scaling per pixel
     5. -1 to +1 scaling per pixel
     
