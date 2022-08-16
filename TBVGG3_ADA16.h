@@ -536,9 +536,10 @@ void TBVGG3_2x2MaxPool(const uint depth, const uint wh, const float input[depth]
         uint oi = 0, oj = 0;
 
         // for every 2x2 chunk of input
-        for(uint i = 0; i < wh; i += 2, oi++)
+        const uint wh1 = wh-1;
+        for(uint i = 0; i < wh1; i += 2, oi++)
         {
-            for(uint j = 0; j < wh; j += 2, oj++)
+            for(uint j = 0; j < wh1; j += 2, oj++)
             {
                 // // get 2x2 chunk from input
                 // const float f[] = {input[d][i][j], input[d][i+1][j], input[d][i][j+1], input[d][i+1][j+1]};
