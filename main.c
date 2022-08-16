@@ -12,6 +12,7 @@
 #include "TBVGG3_ADA16.h"
 //#include "TBVGG3_ADA32.h"
 #define NORMALISE_INPUTS
+
 /*
     In my first ever TBVGG3 implementation on the first CS:GO dataset
     I mean normalised every image by the standard deviation of the
