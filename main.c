@@ -159,7 +159,7 @@ int main()
     for(int i = 0; i < MAX_SAMPLES; i++)
     {
         char fn[256];
-        sprintf(fn, "nontargets/%i.ppm", i+1);
+        sprintf(fn, "nontarget/%i.ppm", i+1);
         FILE* f = fopen(fn, "rb");
         if(f)
         {
