@@ -12,27 +12,7 @@
 #include "TBVGG3_ADA16.h"
 //#include "TBVGG3_ADA32.h"
 #define NORMALISE_INPUTS
-
-/*
-    In my first ever TBVGG3 implementation on the first CS:GO dataset
-    I mean normalised every image by the standard deviation of the
-    entire dataset, not by mini batches.
-    
-    There are a few main arguments to how one should normalise image data:
-    1. stddev of dataset
-    2. stddev of mini batch
-    3. stddev per image
-    4. 0-1 scaling per pixel
-    5. -1 to +1 scaling per pixel
-    
-    What you choose, ultimately depends on your dataset, but don't
-    overcomplicate it in your first attempt, method 4 or 5 is a good
-    start and if that goes well you *might* be able to squeeze out
-    more accuracy with stddev normalisation.
-    
-    Working your way starting from 5 to 1 is probably your best bet
-    to find the best solution for your dataset.
-*/
+//#define TRAIN_NONTARGETS
 
 #define MAX_SAMPLES 5179 // we use NONTARGET_SAMPLES as it's the smaller count
 #define TARGET_SAMPLES MAX_SAMPLES // 5216
@@ -41,7 +21,9 @@
 #define EPOCHS 333333333
 
 float targets[TARGET_SAMPLES][3][28][28];
-float nontargets[NONTARGET_SAMPLES][3][28][28];
+#ifdef TRAIN_NONTARGETS
+    float nontargets[NONTARGET_SAMPLES][3][28][28];
+#endif
 TBVGG3_Network net;
 
 ///
@@ -69,6 +51,7 @@ void shuffle_dataset()
         memcpy(&targets[i2], &t, dl);
     }
 
+#ifdef TRAIN_NONTARGETS
     for(int i = 0; i < MAX_SAMPLES; i++)
     {
         const int i1 = uRand(0, DS1);
@@ -80,6 +63,7 @@ void shuffle_dataset()
         memcpy(&nontargets[i1], &nontargets[i2], dl);
         memcpy(&nontargets[i2], &t, dl);
     }
+#endif
 }
 
 void generate_output(int sig_num)
@@ -117,7 +101,7 @@ int main()
         {
             // notify load
             printf("%s\n", fn);
-            
+
             // seek past ppm header
             fseek(f, 13, SEEK_SET);
 
@@ -154,6 +138,7 @@ int main()
         }
     }
 
+#ifdef TRAIN_NONTARGETS
     // load nontargets
     printf("\nloading nontarget data\n");
     for(int i = 0; i < MAX_SAMPLES; i++)
@@ -165,7 +150,7 @@ int main()
         {
             // notify load
             printf("%s\n", fn);
-            
+
             // seek past ppm header
             fseek(f, 13, SEEK_SET);
 
@@ -201,6 +186,7 @@ int main()
             fclose(f);
         }
     }
+#endif
 
     // train
     printf("\ntraining network\n\n");
@@ -212,7 +198,9 @@ int main()
         for(int j = 0; j < MAX_SAMPLES; j++)
         {
             float r = 1.f - TBVGG3_Process(&net, targets[j], LEARN_MAX);
+#ifdef TRAIN_NONTARGETS
             r += TBVGG3_Process(&net, nontargets[j], LEARN_MIN);
+#endif
             epoch_loss += r;
             //printf("[%i] loss: %f\n", j, r);
         }
