@@ -290,7 +290,7 @@ static inline float TBVGG3_ADA(const float input, const float error, float* mome
 }
 
 #ifdef UNIFORM_GLOROT
-float TBVGG3_UniformRandom()
+float TBVGG3_RandomWeight()
 {
     static const float rmax = (float)RAND_MAX;
     float pr = 0.f;
@@ -302,7 +302,7 @@ float TBVGG3_UniformRandom()
     return pr;
 }
 #else
-float TBVGG3_NormalRandom() // Box Muller
+float TBVGG3_RandomWeight() // Box Muller
 {
     static const float rmax = (float)RAND_MAX;
     float u = ( (((float)rand())+1e-7f) / rmax) * 2.f - 1.f;
@@ -329,48 +329,31 @@ void TBVGG3_Reset(TBVGG3_Network* net)
     // Weight Init
 
 #ifdef UNIFORM_GLOROT
-    //l1f
-    float d = sqrtf(6.0f / 19.f);
-    for(uint i = 0; i < L1; i++)
-        for(uint j = 0; j < 3; j++)
-            for(uint k = 0; k < 9; k++)
-                net->l1f[i][j][k] = TBVGG3_UniformRandom() * d;
-
-    //l2f
-    d = sqrtf(6.0f / 48.f);
-    for(uint i = 0; i < L2; i++)
-        for(uint j = 0; j < L1; j++)
-            for(uint k = 0; k < 9; k++)
-                net->l2f[i][j][k] = TBVGG3_UniformRandom() * d;
-
-    //l3f
-    d = sqrtf(6.0f / 96.f);
-    for(uint i = 0; i < L3; i++)
-        for(uint j = 0; j < L2; j++)
-            for(uint k = 0; k < 9; k++)
-                net->l3f[i][j][k] = TBVGG3_UniformRandom() * d;
+    const float dividend = 6.0f; // uniform
 #else
+    const float dividend = 2.0f; // normal
+#endif
+
     //l1f
-    float d = sqrtf(2.0f / 19.f);
+    float d = sqrtf(dividend / (3+L1));
     for(uint i = 0; i < L1; i++)
         for(uint j = 0; j < 3; j++)
             for(uint k = 0; k < 9; k++)
-                net->l1f[i][j][k] = TBVGG3_NormalRandom() * d;
+                net->l1f[i][j][k] = TBVGG3_RandomWeight() * d;
 
     //l2f
-    d = sqrtf(2.0f / 48.f);
+    d = sqrtf(dividend / (L1+L2));
     for(uint i = 0; i < L2; i++)
         for(uint j = 0; j < L1; j++)
             for(uint k = 0; k < 9; k++)
-                net->l2f[i][j][k] = TBVGG3_NormalRandom() * d;
+                net->l2f[i][j][k] = TBVGG3_RandomWeight() * d;
 
     //l3f
-    d = sqrtf(2.0f / 96.f);
+    d = sqrtf(dividend / L2+L3);
     for(uint i = 0; i < L3; i++)
         for(uint j = 0; j < L2; j++)
             for(uint k = 0; k < 9; k++)
-                net->l3f[i][j][k] = TBVGG3_NormalRandom() * d;
-#endif
+                net->l3f[i][j][k] = TBVGG3_RandomWeight() * d;
 
     // reset bias
     memset(net->l1fb, 0, sizeof(net->l1fb));
