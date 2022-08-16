@@ -134,7 +134,7 @@
     #define GAIN 0.0065f
 #endif
 
-#if !defined(ADA8) && !defined(ADAL1) && !defined(ADAL2)
+#if !defined(ADA8) && !defined(ADA16) && !defined(ADA32)
     #define ADAL1
 #endif
 
@@ -145,14 +145,14 @@
     #define RL3F 0.03125f // reciprocal L3 as float
 #endif
 
-#ifdef ADAL1
+#ifdef ADA16
     #define L1 16
     #define L2 32
     #define L3 64
     #define RL3F 0.015625f // reciprocal L3 as float
 #endif
 
-#ifdef ADAL2
+#ifdef ADA32
     #define L1 32
     #define L2 64
     #define L3 128
