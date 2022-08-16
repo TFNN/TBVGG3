@@ -118,7 +118,7 @@
         of 0.5.
 
     Network size:
-        728.5 KiB (745,984 bytes)
+        364.2 KiB (372,992 bytes)
 */
 
 #ifndef TBVGG3_H
@@ -153,20 +153,10 @@ struct
     float l2f[64][32][9];
     float l3f[128][64][9];
 
-    // filter momentum's
-    float l1fm[32][3 ][9];
-    float l2fm[64][32][9];
-    float l3fm[128][64][9];
-
     // filter bias's
     float l1fb[32][1];
     float l2fb[64][1];
     float l3fb[128][1];
-
-    // filter bias momentum's
-    float l1fbm[32][1];
-    float l2fbm[64][1];
-    float l3fbm[128][1];
 }
 typedef TBVGG3_Network;
 
@@ -354,19 +344,11 @@ void TBVGG3_Reset(TBVGG3_Network* net)
             for(uint k = 0; k < 9; k++)
                 net->l3f[i][j][k] = TBVGG3_NormalRandom() * d;
 #endif
-    
-    // zero momentum
-    memset(net->l1fm, 0, sizeof(net->l1fm));
-    memset(net->l2fm, 0, sizeof(net->l2fm));
-    memset(net->l3fm, 0, sizeof(net->l3fm));
 
     // reset bias
     memset(net->l1fb, 0, sizeof(net->l1fb));    // bias
     memset(net->l2fb, 0, sizeof(net->l2fb));
     memset(net->l3fb, 0, sizeof(net->l3fb));
-    memset(net->l1fbm, 0, sizeof(net->l1fbm));  // bias momentum
-    memset(net->l2fbm, 0, sizeof(net->l2fbm));
-    memset(net->l3fbm, 0, sizeof(net->l3fbm));
 }
 
 int TBVGG3_SaveNetwork(TBVGG3_Network* net, const char* file)
@@ -571,6 +553,16 @@ float TBVGG3_Process(TBVGG3_Network* net, const float input[3][28][28], const TB
 {
     if(net == NULL){return -1.f;}
 
+    // filter momentum's
+    float l1fm[32][3 ][9];
+    float l2fm[64][32][9];
+    float l3fm[128][64][9];
+
+    // filter bias momentum's
+    float l1fbm[32][1];
+    float l2fbm[64][1];
+    float l3fbm[128][1];
+
     // outputs
     //       d,  y,  x
     float o1[32][28][28];
@@ -720,7 +712,7 @@ float TBVGG3_Process(TBVGG3_Network* net, const float input[3][28][28], const TB
         {
             for(uint j = 0; j < 28; j++) // height
                 for(uint k = 0; k < 28; k++) // width
-                    TBVGG3_3x3ConvB(3, 28, input, e1, j, k, net->l1f[i], net->l1fm[i], &net->l1fb[i][0], &net->l1fbm[i][0]);
+                    TBVGG3_3x3ConvB(3, 28, input, e1, j, k, net->l1f[i], l1fm[i], net->l1fb[i], l1fbm[i]);
         }
 
         // convolve filter 2 with layer 2 error gradients
@@ -728,7 +720,7 @@ float TBVGG3_Process(TBVGG3_Network* net, const float input[3][28][28], const TB
         {
             for(uint j = 0; j < 14; j++) // height
                 for(uint k = 0; k < 14; k++) // width
-                    TBVGG3_3x3ConvB(32, 14, o1, e2, j, k, net->l2f[i], net->l2fm[i], &net->l2fb[i][0], &net->l2fbm[i][0]);
+                    TBVGG3_3x3ConvB(32, 14, o1, e2, j, k, net->l2f[i], l2fm[i], net->l2fb[i], l2fbm[i]);
         }
 
         // convolve filter 3 with layer 3 error gradients
@@ -736,7 +728,7 @@ float TBVGG3_Process(TBVGG3_Network* net, const float input[3][28][28], const TB
         {
             for(uint j = 0; j < 7; j++) // height
                 for(uint k = 0; k < 7; k++) // width
-                    TBVGG3_3x3ConvB(64, 7, o2, e3, j, k, net->l3f[i], net->l3fm[i], &net->l3fb[i][0], &net->l3fbm[i][0]);
+                    TBVGG3_3x3ConvB(64, 7, o2, e3, j, k, net->l3f[i], l3fm[i], net->l3fb[i], l3fbm[i]);
         }
         
         // weights nudged
