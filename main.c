@@ -203,14 +203,18 @@ int main()
                     const float r = (float)tb[(((28*y)+x)*3)];
                     const float g = (float)tb[(((28*y)+x)*3)+1];
                     const float b = (float)tb[(((28*y)+x)*3)+2];
+                    
+                    // it should be C,Y,X not C,X,Y (colour channel, y-axis, x-axis)
+                    // bit late to change it now, but if you are doing any custom projects
+                    // do consider swapping the x and y terms around on the code below.
 #ifdef NORMALISE_INPUTS
-                    nontargets[i][0][x][y] = (r-128.f)*0.003921568859f;
-                    nontargets[i][1][x][y] = (g-128.f)*0.003921568859f;
-                    nontargets[i][2][x][y] = (b-128.f)*0.003921568859f;
+                    nontargets[i][0][x][y] = (r-128.f)*0.003921568859f; // swap x & y
+                    nontargets[i][1][x][y] = (g-128.f)*0.003921568859f; // swap x & y
+                    nontargets[i][2][x][y] = (b-128.f)*0.003921568859f; // swap x & y
 #else
-                    nontargets[i][0][x][y] = r;
-                    nontargets[i][1][x][y] = g;
-                    nontargets[i][2][x][y] = b;
+                    nontargets[i][0][x][y] = r; // swap x & y
+                    nontargets[i][1][x][y] = g; // swap x & y
+                    nontargets[i][2][x][y] = b; // swap x & y
 #endif
                 }
             }
