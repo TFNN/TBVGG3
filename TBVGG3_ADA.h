@@ -92,19 +92,19 @@
 
         When it came to the back propagation I just worked it out
         using the knowledge and intuition I had gained from implementing
-        back propagation in Fully Connected Neural Networks which is a
+        back propagation in fully connected neural networks which is a
         in my opinion easier to understand. That's to say I didn't read
         or check any existing documentation for implementing back prop
         in CNN's. To be honest, the problem is something you can just
         see in your minds eye when you think about it. You know that
         you have to push a gradient backward and that process is very
-        much the same as in Fully Connected layers.
+        much the same as in fully connected layers.
         
-        When a ReLU output is fed into a regular Sigmoid function the
+        When a ReLU output is fed into a regular sigmoid function the
         output of the ReLU will always be >0 and thus the output of the
-        Sigmoid will always be 0.5 - 1.0, and the derivative will start
+        sigmoid will always be 0.5 - 1.0, and the derivative will start
         at 0.25 and then reduce to 0 as the sigmoid input approaches 1.
-        As such I have provided a suggested modification to the Sigmoid
+        As such I have provided a suggested modification to the sigmoid
         function `1-(1 / expf(x))` which will insure that the output ranges
         from 0 to 1 and that the derivative will output 0.25 with an input
         of 0.5.
