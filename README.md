@@ -20,7 +20,7 @@ _TBVGG3 is designed to take a 28x28 image with 3 colour channels (RGB) as input,
 #define SIGMOID_OUTPUT      // or default: linear output
 #define LEARNING_RATE 0.01f // or default: 0.001f
 #define GAIN 1.f            // or default: 0.0065f
-#define NAG_MOMENTUM 0.9f   // of default: 0.1f
+#define NAG_MOMENTUM 0.9f   // or default: 0.1f
 
 #define TBVGG3_LEARNTYPE float
 #define LEARN_MAX 1.f
