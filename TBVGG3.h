@@ -142,7 +142,7 @@
 #endif
 
 #if !defined(OPTIM_NAG) && !defined(OPTIM_SGD) && !defined(OPTIM_ADA)
-    #define OPTIM_NAG
+    #define OPTIM_ADA
 #endif
 
 #if defined(OPTIM_NAG) && !defined(NAG_MOMENTUM)
