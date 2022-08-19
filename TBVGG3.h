@@ -1,7 +1,7 @@
 /*
 --------------------------------------------------
     James William Fletcher (github.com/mrbid)
-        AUGUST 2022 - TBVGG3_ADA
+        AUGUST 2022 - TBVGG3
 --------------------------------------------------
     Tiny Binary VGG3
     https://github.com/tfcnn
@@ -139,6 +139,14 @@
 
 #if !defined(ADA8) && !defined(ADA16) && !defined(ADA32)
     #define ADA16
+#endif
+
+#if !defined(OPTIM_NAG) && !defined(OPTIM_SGD) && !defined(OPTIM_ADA)
+    #define OPTIM_NAG
+#endif
+
+#if defined(OPTIM_NAG) && !defined(NAG_MOMENTUM)
+    #define NAG_MOMENTUM 0.1f
 #endif
 
 #ifdef ADA8
@@ -284,11 +292,22 @@ static inline float TBVGG3_SIGMOID_D(const float x)
 }
 #endif
 
-static inline float TBVGG3_ADA(const float input, const float error, float* momentum)
+static inline float TBVGG3_OPTIM(const float input, const float error, float* momentum)
 {
+#ifdef OPTIM_ADA
     const float err = error * input;
     momentum[0] += err * err;
     return (LEARNING_RATE / sqrtf(momentum[0] + 1e-7f)) * err;
+#endif
+#ifdef OPTIM_NAG
+    const float v = NAG_MOMENTUM * momentum[0] + ( LEARNING_RATE * error * input );
+    const float n = v + NAG_MOMENTUM * (v - momentum[0]);
+    momentum[0] = v;
+    return n;
+#endif
+#ifdef OPTIM_SGD
+    return LEARNING_RATE * error * input;
+#endif
 }
 
 #ifdef UNIFORM_GLOROT
@@ -505,44 +524,44 @@ void TBVGG3_3x3ConvB(const uint depth, const uint wh, const float input[depth][w
         // lower row
         nx = x-1, ny = y-1;
         if(TBVGG3_CheckPadded(nx, ny, wh) == 0)
-            filter[i][0] += TBVGG3_ADA(input[i][ny][nx], error[i][y][x], &filter_momentum[i][0]);
+            filter[i][0] += TBVGG3_OPTIM(input[i][ny][nx], error[i][y][x], &filter_momentum[i][0]);
             
         nx = x,   ny = y-1;
         if(TBVGG3_CheckPadded(nx, ny, wh) == 0)
-            filter[i][1] += TBVGG3_ADA(input[i][ny][nx], error[i][y][x], &filter_momentum[i][1]);
+            filter[i][1] += TBVGG3_OPTIM(input[i][ny][nx], error[i][y][x], &filter_momentum[i][1]);
 
         nx = x+1, ny = y-1;
         if(TBVGG3_CheckPadded(nx, ny, wh) == 0)
-            filter[i][2] += TBVGG3_ADA(input[i][ny][nx], error[i][y][x], &filter_momentum[i][2]);
+            filter[i][2] += TBVGG3_OPTIM(input[i][ny][nx], error[i][y][x], &filter_momentum[i][2]);
 
         // middle row
         nx = x-1, ny = y;
         if(TBVGG3_CheckPadded(nx, ny, wh) == 0)
-            filter[i][3] += TBVGG3_ADA(input[i][ny][nx], error[i][y][x], &filter_momentum[i][3]);
+            filter[i][3] += TBVGG3_OPTIM(input[i][ny][nx], error[i][y][x], &filter_momentum[i][3]);
 
         nx = x,   ny = y;
         if(TBVGG3_CheckPadded(nx, ny, wh) == 0)
-            filter[i][4] += TBVGG3_ADA(input[i][ny][nx], error[i][y][x], &filter_momentum[i][4]);
+            filter[i][4] += TBVGG3_OPTIM(input[i][ny][nx], error[i][y][x], &filter_momentum[i][4]);
 
         nx = x+1, ny = y;
         if(TBVGG3_CheckPadded(nx, ny, wh) == 0)
-            filter[i][5] += TBVGG3_ADA(input[i][ny][nx], error[i][y][x], &filter_momentum[i][5]);
+            filter[i][5] += TBVGG3_OPTIM(input[i][ny][nx], error[i][y][x], &filter_momentum[i][5]);
 
         // top row
         nx = x-1, ny = y+1;
         if(TBVGG3_CheckPadded(nx, ny, wh) == 0)
-            filter[i][6] += TBVGG3_ADA(input[i][ny][nx], error[i][y][x], &filter_momentum[i][6]);
+            filter[i][6] += TBVGG3_OPTIM(input[i][ny][nx], error[i][y][x], &filter_momentum[i][6]);
 
         nx = x,   ny = y+1;
         if(TBVGG3_CheckPadded(nx, ny, wh) == 0)
-            filter[i][7] += TBVGG3_ADA(input[i][ny][nx], error[i][y][x], &filter_momentum[i][7]);
+            filter[i][7] += TBVGG3_OPTIM(input[i][ny][nx], error[i][y][x], &filter_momentum[i][7]);
 
         nx = x+1, ny = y+1;
         if(TBVGG3_CheckPadded(nx, ny, wh) == 0)
-            filter[i][8] += TBVGG3_ADA(input[i][ny][nx], error[i][y][x], &filter_momentum[i][8]);
+            filter[i][8] += TBVGG3_OPTIM(input[i][ny][nx], error[i][y][x], &filter_momentum[i][8]);
         
         // bias
-        bias[0] += TBVGG3_ADA(1, error[i][y][x], bias_momentum);
+        bias[0] += TBVGG3_OPTIM(1, error[i][y][x], bias_momentum);
     }
 }
 
