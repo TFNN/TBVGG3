@@ -14,7 +14,8 @@
 #include "TBVGG3_ADA.h"
 #define NORMALISE_INPUTS
 #define TRAIN_NONTARGETS
-#define NONTARGETS_ZERO // strangely training the network to output zero with zero'd input data improves the accuracy O_o
+#define NONTARGETS_ZERO // strangely training the network to output zero
+                        // with zero'd input data improves the accuracy
 
 /*
     In my first ever TBVGG3 implementation on the first CS:GO dataset
