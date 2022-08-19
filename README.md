@@ -18,6 +18,8 @@ _TBVGG3 is designed to take a 28x28 image with 3 colour channels (RGB) as input,
 #define ADA32               // or default: ADA16
 #define LEARNING_RATE 0.01f // or default: 0.001f
 #define GAIN 1.f            // or default: 0.0065f
+#define OPTIM_SGD           // or default: OPTIM_ADA
+#define OPTIM_NAG           // or default: OPTIM_ADA
 
 #define TBVGG3_LEARNTYPE float
 #define LEARN_MAX 1.f
