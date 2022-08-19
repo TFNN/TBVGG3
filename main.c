@@ -58,15 +58,6 @@ static forceinline uint uRand(const uint min, const uint max)
     return ((((float)rand()) * rndmax) * ((max+1)-min) ) + min;
 }
 
-int srandfq = 1988;
-forceinline float urandfc() // -1 to 1
-{
-    // https://www.musicdsp.org/en/latest/Other/273-fast-f32-random-numbers.html
-    // moc.liamg@seir.kinimod
-    srandfq *= 16807;
-    return ((float)srandfq) * 4.6566129e-010f;
-}
-
 void shuffle_dataset()
 {
     const int dl = SAMPLE_SIZE*sizeof(float);
