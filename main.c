@@ -146,9 +146,9 @@ int main()
                     const float g = (float)tb[(((28*y)+x)*3)+1];
                     const float b = (float)tb[(((28*y)+x)*3)+2];
 #ifdef NORMALISE_INPUTS
-                    targets[i][0][y][x] = (r-128.f)*0.003921568859f;
-                    targets[i][1][y][x] = (g-128.f)*0.003921568859f;
-                    targets[i][2][y][x] = (b-128.f)*0.003921568859f;
+                    targets[i][0][y][x] = (r-128.f)*0.0078125f;
+                    targets[i][1][y][x] = (g-128.f)*0.0078125f;
+                    targets[i][2][y][x] = (b-128.f)*0.0078125f;
 #else
                     targets[i][0][y][x] = r;
                     targets[i][1][y][x] = g;
@@ -197,9 +197,9 @@ int main()
                     const float b = (float)tb[(((28*y)+x)*3)+2];
                     
 #ifdef NORMALISE_INPUTS
-                    nontargets[i][0][y][x] = (r-128.f)*0.003921568859f; // swap x & y
-                    nontargets[i][1][y][x] = (g-128.f)*0.003921568859f; // swap x & y
-                    nontargets[i][2][y][x] = (b-128.f)*0.003921568859f; // swap x & y
+                    nontargets[i][0][y][x] = (r-128.f)*0.0078125f; // swap x & y
+                    nontargets[i][1][y][x] = (g-128.f)*0.0078125f; // swap x & y
+                    nontargets[i][2][y][x] = (b-128.f)*0.0078125f; // swap x & y
 #else
                     nontargets[i][0][y][x] = r; // swap x & y
                     nontargets[i][1][y][x] = g; // swap x & y
