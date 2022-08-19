@@ -154,13 +154,13 @@ int main()
                     const float g = (float)tb[(((28*y)+x)*3)+1];
                     const float b = (float)tb[(((28*y)+x)*3)+2];
 #ifdef NORMALISE_INPUTS
-                    targets[i][0][x][y] = (r-128.f)*0.003921568859f;
-                    targets[i][1][x][y] = (g-128.f)*0.003921568859f;
-                    targets[i][2][x][y] = (b-128.f)*0.003921568859f;
+                    targets[i][0][y][x] = (r-128.f)*0.003921568859f;
+                    targets[i][1][y][x] = (g-128.f)*0.003921568859f;
+                    targets[i][2][y][x] = (b-128.f)*0.003921568859f;
 #else
-                    targets[i][0][x][y] = r;
-                    targets[i][1][x][y] = g;
-                    targets[i][2][x][y] = b;
+                    targets[i][0][y][x] = r;
+                    targets[i][1][y][x] = g;
+                    targets[i][2][y][x] = b;
 #endif
                 }
             }
@@ -204,18 +204,14 @@ int main()
                     const float g = (float)tb[(((28*y)+x)*3)+1];
                     const float b = (float)tb[(((28*y)+x)*3)+2];
                     
-                    // it should be C,Y,X not C,X,Y (colour channel, y-axis, x-axis)
-                    // bit late to change it now, but if you are doing any custom projects
-                    // do consider swapping the x and y terms around on the code below.
-                    // the difference is not functional, it's memory access efficiency.
 #ifdef NORMALISE_INPUTS
-                    nontargets[i][0][x][y] = (r-128.f)*0.003921568859f; // swap x & y
-                    nontargets[i][1][x][y] = (g-128.f)*0.003921568859f; // swap x & y
-                    nontargets[i][2][x][y] = (b-128.f)*0.003921568859f; // swap x & y
+                    nontargets[i][0][y][x] = (r-128.f)*0.003921568859f; // swap x & y
+                    nontargets[i][1][y][x] = (g-128.f)*0.003921568859f; // swap x & y
+                    nontargets[i][2][y][x] = (b-128.f)*0.003921568859f; // swap x & y
 #else
-                    nontargets[i][0][x][y] = r; // swap x & y
-                    nontargets[i][1][x][y] = g; // swap x & y
-                    nontargets[i][2][x][y] = b; // swap x & y
+                    nontargets[i][0][y][x] = r; // swap x & y
+                    nontargets[i][1][y][x] = g; // swap x & y
+                    nontargets[i][2][y][x] = b; // swap x & y
 #endif
                 }
             }
