@@ -11,7 +11,7 @@
 #define LEARNING_RATE 0.0001f
 #define GAIN          0.0065f
 #define SIGMOID_OUTPUT
-#include "TBVGG3_ADA.h"
+#include "TBVGG3.h"
 #define NORMALISE_INPUTS
 #define TRAIN_NONTARGETS
 #define NONTARGETS_ZERO // strangely training the network to output zero
