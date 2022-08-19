@@ -12,14 +12,15 @@ This is not associated with the Oxford Visual Geometry Group, the network is ins
 _TBVGG3 is designed to take a 28x28 image with 3 colour channels (RGB) as input, preferably normalised -1 to 1._
 ```
 // options that can be defined before including TBVGG3_ADA.h
-#define SIGMOID_OUTPUT      // or default: linear output
-#define UNIFORM_GLOROT      // or default: normal glorot
 #define ADA8                // or default: ADA16
 #define ADA32               // or default: ADA16
-#define LEARNING_RATE 0.01f // or default: 0.001f
-#define GAIN 1.f            // or default: 0.0065f
+#define UNIFORM_GLOROT      // or default: normal glorot
 #define OPTIM_SGD           // or default: OPTIM_ADA
 #define OPTIM_NAG           // or default: OPTIM_ADA
+#define SIGMOID_OUTPUT      // or default: linear output
+#define LEARNING_RATE 0.01f // or default: 0.001f
+#define GAIN 1.f            // or default: 0.0065f
+#define NAG_MOMENTUM 0.9f   // of default: 0.1f
 
 #define TBVGG3_LEARNTYPE float
 #define LEARN_MAX 1.f
