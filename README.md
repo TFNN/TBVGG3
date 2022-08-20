@@ -14,7 +14,7 @@ _TBVGG3 is designed to take a 28x28 image with 3 colour channels (RGB) as input,
 // options that can be defined before including TBVGG3_ADA.h
 #define ADA8                // or default: ADA16
 #define ADA32               // or default: ADA16
-#define UNIFORM_GLOROT      // or default: normal glorot
+#define UNIFORM_GLOROT      // or default: NORMAL_GLOROT
 #define OPTIM_SGD           // or default: OPTIM_ADA
 #define OPTIM_NAG           // or default: OPTIM_ADA
 #define SIGMOID_OUTPUT      // or default: linear output
