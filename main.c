@@ -94,13 +94,6 @@ void generate_output(int sig_num)
     // save network
     TBVGG3_SaveNetwork(&net, "network.save");
 
-#ifdef LINUX_DEBUG
-    // dump weights
-    char fn[256];
-    sprintf(fn, "debug/final");
-    TBVGG3_Dump(&net, fn);
-#endif
-
     // done
     exit(0);
 }
