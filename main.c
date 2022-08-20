@@ -5,7 +5,6 @@
 #include <signal.h>
 #define forceinline __attribute__((always_inline)) inline
 
-//#define LINUX_DEBUG
 //#define UNIFORM_GLOROT
 #define ADA16
 #define LEARNING_RATE 0.0001f
