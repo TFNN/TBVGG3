@@ -1,5 +1,5 @@
 // James William Fletcher (github.com/mrbid)
-// github.com/TFCNN/TBVGG3
+// github.com/TFNN/TBVGG3
 // gcc main.c -lm -Ofast -mavx -mfma -o main
 
 #include <signal.h>
