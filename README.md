@@ -44,4 +44,4 @@ TBVGG3_Reset(&net); // this will initialise the weights
 ```
 _It is important that you always call `TBVGG3_Reset();` on a newly created network to initialise the weights._ 
 
-_An implementation is available [here](https://github.com/jcwml/CSGO-Trigger-Bot)._
+_An implementation is available [here](https://github.com/jcwml/CSGO-Trigger-Bot) and [here](https://github.com/jcwml/CSGO-Trigger-Bot-2)._
