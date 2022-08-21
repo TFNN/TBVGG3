@@ -189,13 +189,13 @@ int main()
                     const float b = (float)tb[(((28*y)+x)*3)+2];
                     
 #ifdef NORMALISE_INPUTS
-                    nontargets[i][0][y][x] = (r-128.f)*0.0078125f; // swap x & y
-                    nontargets[i][1][y][x] = (g-128.f)*0.0078125f; // swap x & y
-                    nontargets[i][2][y][x] = (b-128.f)*0.0078125f; // swap x & y
+                    nontargets[i][0][y][x] = (r-128.f)*0.0078125f;
+                    nontargets[i][1][y][x] = (g-128.f)*0.0078125f;
+                    nontargets[i][2][y][x] = (b-128.f)*0.0078125f;
 #else
-                    nontargets[i][0][y][x] = r; // swap x & y
-                    nontargets[i][1][y][x] = g; // swap x & y
-                    nontargets[i][2][y][x] = b; // swap x & y
+                    nontargets[i][0][y][x] = r;
+                    nontargets[i][1][y][x] = g;
+                    nontargets[i][2][y][x] = b;
 #endif
                 }
             }
