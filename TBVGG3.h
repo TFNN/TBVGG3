@@ -4,7 +4,7 @@
         AUGUST 2022 - TBVGG3
 --------------------------------------------------
     Tiny Binary VGG3
-    https://github.com/tfcnn
+    https://github.com/tfnn
     
     Release Notes:
 
