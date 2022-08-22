@@ -8,10 +8,12 @@ To learn more about the VGG Network coined by the [Oxford Visual Geometry Group]
 
 This is not associated with the Oxford Visual Geometry Group, the network is inspired by the VGG network, it is essentially a very similar type of network because it uses only 3x3 kernels. The number following VGG is the number of layers in the network, hence this network having been coined VGG3, and TBVGG3 because it has a Tiny footprint and a Binary output; making it the Tiny Binary VGG 3 (TBVGG3).
 
+The network has three default sizes, `ADA8`, `ADA16`, and `ADA32` although you could setup bigger networks, it's unlikely you would need to. The reason for the ADA naming convention is because originaly I only intended to support the ADAGRAD optimiser, although since then I have added SGD & NAG and the naming convention ADA for the sizes of kernels/filters per layer multiples just stuck. In an ADA8 network for example, the first layer has 8 kernels, the second has 16 kernels and the third and last layer has 32 kernels. Each subsequent layer has a squared amount of kernels from the last layer.
+
 ### TBVGG3 has a very simple interface
 _TBVGG3 is designed to take a 28x28 image with 3 colour channels (RGB) as input, preferably normalised -1 to 1._
 ```
-// options that can be defined before including TBVGG3_ADA.h
+// options that can be defined before including TBVGG3.h
 #define ADA8                // or default: ADA16
 #define ADA32               // or default: ADA16
 #define UNIFORM_GLOROT      // or default: NORMAL_GLOROT
