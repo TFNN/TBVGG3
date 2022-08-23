@@ -54,7 +54,7 @@ TBVGG3_Network net;
 static forceinline uint uRand(const uint min, const uint max)
 {
     static float rndmax = 1.f/(float)RAND_MAX;
-    return ((((float)rand()) * rndmax) * ((max+1)-min) ) + min;
+    return ((((float)rand()) * rndmax) * (max-min) ) + min;
 }
 
 void shuffle_dataset()
