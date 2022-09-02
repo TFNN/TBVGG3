@@ -1,6 +1,6 @@
 # TBVGG3
 
-A Fully Convolutional Network (FCN) written in C
+A Fully Convolutional Network (FCN) written in C.
 
 The dataset used in the example provided [main.c](main.c) is [CSGO.zip](https://github.com/TFNN/DOCS/raw/main/DATASETS/CSGO.zip) from [DOCS/DATASETS](https://github.com/TFNN/DOCS/tree/main/DATASETS).
 
