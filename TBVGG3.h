@@ -594,45 +594,27 @@ float TBVGG3_Process(TBVGG3_Network* net, const float input[3][28][28], const TB
 
     // convolve input with L1 filters
     for(uint i = 0; i < L1; i++) // num filter
-    {
         for(uint j = 0; j < 28; j++) // height
-        {
             for(uint k = 0; k < 28; k++) // width
-            {
                 o1[i][j][k] = TBVGG3_3x3Conv(3, 28, input, j, k, net->l1f[i], net->l1fb[i]);
-            }
-        }
-    }
 
     // max pool the output
     TBVGG3_2x2MaxPool(L1, 28, o1, p1);
 
     // convolve output with L2 filters
     for(uint i = 0; i < L2; i++) // num filter
-    {
         for(uint j = 0; j < 14; j++) // height
-        {
             for(uint k = 0; k < 14; k++) // width
-            {
                 o2[i][j][k] = TBVGG3_3x3Conv(L1, 14, p1, j, k, net->l2f[i], net->l2fb[i]);
-            }
-        }
-    }
 
     // max pool the output
     TBVGG3_2x2MaxPool(L2, 14, o2, p2);
 
     // convolve output with L3 filters
     for(uint i = 0; i < L3; i++) // num filter
-    {
         for(uint j = 0; j < 7; j++) // height
-        {
             for(uint k = 0; k < 7; k++) // width
-            {
                 o3[i][j][k] = TBVGG3_3x3Conv(L2, 7, p2, j, k, net->l3f[i], net->l3fb[i]);
-            }
-        }
-    }
 
     // global average pooling
     float gap[L3] = {0};
@@ -714,37 +696,29 @@ float TBVGG3_Process(TBVGG3_Network* net, const float input[3][28][28], const TB
 
         // layer 1
         for(uint i = 0; i < L1; i++) // num filter
-        {
             for(uint j = 0; j < 28; j++) // height
                 for(uint k = 0; k < 28; k++) // width
                     e1[i][j][k] = GAIN * TBVGG3_RELU_D(o1[i][j][k]) * l2er; // set error
-        }
 
         // ********** Weight Nudge Forward Pass **********
         
         // convolve filter 1 with layer 1 error gradients
         for(uint i = 0; i < L1; i++) // num filter
-        {
             for(uint j = 0; j < 28; j++) // height
                 for(uint k = 0; k < 28; k++) // width
                     TBVGG3_3x3ConvB(3, 28, input, e1, j, k, net->l1f[i], l1fm[i], net->l1fb[i], l1fbm[i]);
-        }
 
         // convolve filter 2 with layer 2 error gradients
         for(uint i = 0; i < L2; i++) // num filter
-        {
             for(uint j = 0; j < 14; j++) // height
                 for(uint k = 0; k < 14; k++) // width
                     TBVGG3_3x3ConvB(L1, 14, o1, e2, j, k, net->l2f[i], l2fm[i], net->l2fb[i], l2fbm[i]);
-        }
 
         // convolve filter 3 with layer 3 error gradients
         for(uint i = 0; i < L3; i++) // num filter
-        {
             for(uint j = 0; j < 7; j++) // height
                 for(uint k = 0; k < 7; k++) // width
                     TBVGG3_3x3ConvB(L2, 7, o2, e3, j, k, net->l3f[i], l3fm[i], net->l3fb[i], l3fbm[i]);
-        }
         
         // weights nudged
     }
