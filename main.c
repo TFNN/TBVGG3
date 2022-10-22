@@ -1,6 +1,6 @@
 // James William Fletcher (github.com/mrbid)
 // github.com/TFNN/TBVGG3
-// gcc main.c -lm -Ofast -mavx -mfma -o main
+// gcc main.c -lm -Ofast -mfma -o main
 
 #include <signal.h>
 #define forceinline __attribute__((always_inline)) inline
